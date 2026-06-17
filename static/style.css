@@ -25,21 +25,19 @@ img{max-width:100%;height:auto;border-radius:6px}
 .products{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin:12px 0}
 
 .products.hl-scroll {
-  display: block;
+  display: flex;
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
   touch-action: pan-x; /* Enable horizontal scroll on touch devices */
+  min-width: max-content;
 }
 
 .products.hl-scroll .product-card {
-  display: inline-block;
-  vertical-align: top;
-  white-space: normal;
+  flex-shrink: 0;
   margin-right: 8px;
-  min-width: 160px;
 }
 
 .products.hl-scroll::-webkit-scrollbar {
