@@ -48,8 +48,48 @@
                 {% endfor %}
             </div>
         </nav>
+        <div class="home-highlights">
+            <section class="hl-col">
+                <h2>Produk Terbaru</h2>
+                {% if products %}
+                <div class="products">
+                    {% for product in products[:6] %}
+                    <a href="/p/{{ product.slug }}.html" class="product-card">
+                        <div class="img-wrap">
+                            {% if product.image %}<img src="{{ product.image }}" alt="{{ product.title }}" loading="lazy">{% endif %}
+                        </div>
+                        <div class="info">
+                            <h3>{{ product.title }}</h3>
+                            <div class="price">{{ product.price_fmt }}</div>
+                            <div class="rating"><span class="stars">★</span> {{ product.rating }} <span class="reviews">({{ product.reviews }} penilaian)</span></div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </section>
+            <section class="hl-col">
+                <h2>Produk Terlaris</h2>
+                {% if popular %}
+                <div class="products">
+                    {% for product in popular[:6] %}
+                    <a href="/p/{{ product.slug }}.html" class="product-card">
+                        <div class="img-wrap">
+                            {% if product.image %}<img src="{{ product.image }}" alt="{{ product.title }}" loading="lazy">{% endif %}
+                        </div>
+                        <div class="info">
+                            <h3>{{ product.title }}</h3>
+                            <div class="price">{{ product.price_fmt }}</div>
+                            <div class="rating"><span class="stars">★</span> {{ product.rating }} <span class="reviews">({{ product.reviews }} penilaian)</span></div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </section>
+        </div>
         <section class="section-produk">
-            <h2>Produk Terbaru</h2>
+            <h2>Semua Produk</h2>
             {% if products %}
             <div class="products" id="product-grid">
                 {% for product in products %}

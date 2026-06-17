@@ -117,7 +117,12 @@ footer a:hover{color:#ee4d2d}
 .category-intro p{font-size:0.92rem;color:#555;line-height:1.6;margin:0 0 8px}
 .category-intro .style-tips{background:#fff8f6;padding:10px 14px;border-radius:6px;font-size:0.88rem;color:#c4452a;line-height:1.5}
 .category-intro .style-tips strong{color:#ee4d2d}
+.home-highlights{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:12px 0}
+.home-highlights .products{grid-template-columns:repeat(3,1fr)}
+.home-highlights .hl-col h2{margin-top:0}
 @media(max-width:600px){
+  .home-highlights{grid-template-columns:1fr;gap:8px}
+  .home-highlights .products{grid-template-columns:repeat(2,1fr)}
   .hero{padding:16px 14px}
   .hero h2{font-size:1.1rem}
   .category-intro{padding:14px}

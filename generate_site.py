@@ -322,12 +322,14 @@ def generate_index(env, products):
                 "rating": rating,
                 "reviews": reviews,
             })
+    popular = sorted(product_list, key=lambda x: x["reviews"], reverse=True)[:12]
     template = env.get_template("index.html")
     html = template.render(
         site_name=SITE_NAME,
         site_url=SITE_URL,
         categories=CATEGORIES,
         products=product_list,
+        popular=popular,
         articles=generate_auto_articles(products),
     )
     return html
