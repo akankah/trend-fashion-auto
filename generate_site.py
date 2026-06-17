@@ -69,7 +69,7 @@ def generate_product_page(env, product):
     cat = classify_product(title)
     slug = slugify(title) or f"produk-{product['shopid']}-{product['itemid']}"
     description = f"Beli {title} dengan harga terbaik. Produk fashion kategori {cat['name']} terbaru dan terlaris."
-    affiliate_url = product.get("url") or f"https://shopee.co.id/product/{product['shopid']}/{product['itemid']}"
+    affiliate_url = product.get("shortlink") or product.get("url") or f"https://shopee.co.id/product/{product['shopid']}/{product['itemid']}"
 
     template = env.get_template("product.html")
     rating, reviews = product_rating(title)
