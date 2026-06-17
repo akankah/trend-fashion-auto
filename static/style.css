@@ -26,20 +26,29 @@ img{max-width:100%;height:auto;border-radius:6px}
 
 .products.hl-scroll {
   display: flex;
+  flex-wrap: nowrap;
   overflow-x: auto;
   overflow-y: hidden;
   width: 100%;
-  min-width: max-content;
+  height: auto;
+  gap: 6px;
+  padding: 0 16px;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x;
-  overscroll-behavior-x: contain;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
 }
 
 .products.hl-scroll .product-card {
-  flex-shrink: 0;
+  flex: 0 0 170px;
   margin: 0;
-  min-width: 170px;
-  max-width: 170px;
+  touch-action: pan-x;
+}
+
+.products.hl-scroll .product-card a,
+.products.hl-scroll .img-wrap,
+.products.hl-scroll img {
+  touch-action: pan-x;
 }
 
 
@@ -144,6 +153,7 @@ footer a:hover{color:#ee4d2d}
 @media(max-width:600px){
   .home-highlights{grid-template-columns:1fr;gap:8px}
   .home-highlights .products{grid-template-columns:repeat(2,1fr)}
+  .home-highlights .products.hl-scroll{display:flex;grid-template-columns:none;overflow-x:auto}
   .hero{padding:16px 14px}
   .hero h2{font-size:1.1rem}
   .category-intro{padding:14px}
