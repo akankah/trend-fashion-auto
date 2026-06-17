@@ -305,12 +305,12 @@ def product_rating(title):
 
 def generate_index(env, products):
     product_list = []
-    seen_slugs = set()
+    seen_slugs = {}
     for i, p in enumerate(products):
         title = p.get("title") or f"Produk {p['shopid']}.{p['itemid']}"
         slug = slugify(title) or f"produk-{p['shopid']}-{p['itemid']}"
         if slug not in seen_slugs:
-            seen_slugs.add(slug)
+            seen_slugs[slug] = 1
             rating, reviews = product_rating(title)
             price = (i + 1) * 15000 + 30000
             product_list.append({
@@ -361,21 +361,24 @@ def generate_category_pages(env, products):
     pages = {}
     for cat in CATEGORIES:
         cat_products = []
+        seen = set()
         for i, p in enumerate(products):
             title = p.get("title") or f"Produk {p['shopid']}.{p['itemid']}"
             if any(kw in title.lower() for kw in cat["keywords"]):
-                slug_p = slugify(title) or f"produk-{p['shopid']}-{p['itemid']}"
-                rating, reviews = product_rating(title)
-                price = (len(cat_products) + 1) * 15000 + 30000
-                cat_products.append({
-                    "title": title,
-                    "slug": slug_p,
-                    "image": p.get("image") or PLACEHOLDER_IMAGE,
-                    "price": price,
-                    "price_fmt": fmt_price(price),
-                    "rating": rating,
-                    "reviews": reviews,
-                })
+                key = slugify(title) or f"produk-{p['shopid']}-{p['itemid']}"
+                if key not in seen:
+                    seen.add(key)
+                    rating, reviews = product_rating(title)
+                    price = (len(cat_products) + 1) * 15000 + 30000
+                    cat_products.append({
+                        "title": title,
+                        "slug": key,
+                        "image": p.get("image") or PLACEHOLDER_IMAGE,
+                        "price": price,
+                        "price_fmt": fmt_price(price),
+                        "rating": rating,
+                        "reviews": reviews,
+                    })
         articles_all = generate_auto_articles(products)
         cat_articles = [a for a in articles_all if a["category"] == cat["name"]]
         template = env.get_template("category.html")
@@ -464,15 +467,20 @@ def main():
 
     env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
 
-    product_slugs = set()
+    page_count = 0
+    slug_counts = {}
     for p in products:
         slug, html, cat_slug = generate_product_page(env, p)
-        if slug not in product_slugs:
-            product_slugs.add(slug)
-            filepath = f"{OUTPUT_DIR}/p/{slug}.html"
-            with open(filepath, "w", encoding="utf-8") as f:
-                f.write(html)
-    print(f"[Generator] Product pages generated: {len(product_slugs)}")
+        if slug in slug_counts:
+            slug_counts[slug] += 1
+            slug = f"{slug}-{slug_counts[slug]}"
+        else:
+            slug_counts[slug] = 1
+        page_count += 1
+        filepath = f"{OUTPUT_DIR}/p/{slug}.html"
+        with open(filepath, "w", encoding="utf-8") as f:
+            f.write(html)
+    print(f"[Generator] Product pages generated: {page_count}")
 
     index_html = generate_index(env, products)
     with open(f"{OUTPUT_DIR}/index.html", "w", encoding="utf-8") as f:

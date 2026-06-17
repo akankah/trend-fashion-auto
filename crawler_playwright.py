@@ -23,8 +23,8 @@ def save_products(products):
     seen = set()
     deduped = []
     for p in products:
-        key = (p.get("shopid"), p.get("itemid"))
-        if key not in seen:
+        key = p.get("shortlink", "")
+        if key and key not in seen:
             seen.add(key)
             deduped.append(p)
     with open(DATA_FILE, "w", encoding="utf-8") as f:
@@ -120,7 +120,6 @@ async def run():
         link_map[sl] = l
 
     existing = load_products()
-    existing_ids = {(p["shopid"], p["itemid"]) for p in existing}
 
     # Filter existing: remove products no longer on Collshp
     valid_existing = [p for p in existing if p.get("shortlink") in current_shortlinks]
@@ -143,8 +142,6 @@ async def run():
             ids = extract_shopee_id(url)
             if not ids:
                 continue
-            if (ids["shopid"], ids["itemid"]) in existing_ids:
-                continue
             l = link_map[sl]
             img = l.get("image", "")
             if img and "down-" in img:
@@ -159,7 +156,6 @@ async def run():
                 "date_added": datetime.now().isoformat(),
             }
             valid_existing.append(product)
-            existing_ids.add((ids["shopid"], ids["itemid"]))
         print(f"[Crawler] Newly resolved: {len(resolved_map)}")
     else:
         print("[Crawler] Nothing new to resolve")
