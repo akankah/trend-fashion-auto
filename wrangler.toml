@@ -1,2 +1,2 @@
-pages_project_name = "trend-fashion-auto"
-pages_branch = "main"
+name = "trend-fashion-auto"
+pages_build_output_dir = "generated"
