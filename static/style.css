@@ -28,13 +28,13 @@ img{max-width:100%;height:auto;border-radius:6px}
   display: flex;
   overflow-x: auto;
   overflow-y: hidden;
-  white-space: nowrap;
+  width: 100%; /* ✅ Fix: batasi lebar container agar tidak menggeser halaman */
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
   touch-action: pan-x; /* Enable horizontal scroll on touch devices */
-  min-width: max-content;
   padding: 0 16px;
   gap: 6px;
+  min-width: max-content;
 }
 
 .products.hl-scroll .product-card {
