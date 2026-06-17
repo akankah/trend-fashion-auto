@@ -8,14 +8,48 @@
     <link rel="canonical" href="{{ site_url }}/{{ slug }}.html">
     <meta name="robots" content="index, follow">
     <link rel="stylesheet" href="/style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "{{ title }}",
+      "description": "{{ description }}",
+      "publisher": { "@type": "Organization", "name": "{{ site_name }}" }
+    }
+    </script>
+    {% if slug == "faq" %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type":"Question","name":"Apa itu Trend Fashion Auto?","acceptedAnswer":{"@type":"Answer","text":"Trend Fashion Auto adalah platform yang mengumpulkan rekomendasi produk fashion wanita terbaru dari berbagai toko terpercaya."}},
+        {"@type":"Question","name":"Bagaimana cara membeli produk?","acceptedAnswer":{"@type":"Answer","text":"Klik tombol Lihat Produk di Shopee pada halaman produk untuk diarahkan ke halaman Shopee."}},
+        {"@type":"Question","name":"Apakah harga yang ditampilkan akurat?","acceptedAnswer":{"@type":"Answer","text":"Harga dapat berubah sewaktu-waktu tergantung toko dan promo yang sedang berlangsung."}},
+        {"@type":"Question","name":"Apakah link afiliasi mempengaruhi harga?","acceptedAnswer":{"@type":"Answer","text":"Tidak. Harga yang Anda bayarkan tetap sama. Kami mendapat komisi kecil tanpa biaya tambahan untuk pembeli."}},
+        {"@type":"Question","name":"Apakah situs ini menjual produk?","acceptedAnswer":{"@type":"Answer","text":"Tidak, kami hanya menyediakan informasi dan rekomendasi produk. Pembelian dilakukan melalui Shopee."}}
+      ]
+    }
+    </script>
+    {% endif %}
 </head>
 <body>
     <header>
         <div class="container">
-            <h1><a href="/">{{ site_name }}</a></h1>
+            <div class="logo">
+                <div class="logo-icon">F</div>
+                <h1><a href="/">{{ site_name }}</a></h1>
+            </div>
         </div>
     </header>
     <div class="container">
+        <nav class="cat-float">
+            <div class="cat-float-inner">
+                {% for cat in categories %}
+                <a href="/kategori/{{ cat.slug }}.html" class="cat-float-item">{{ cat.icon }} {{ cat.name }}</a>
+                {% endfor %}
+            </div>
+        </nav>
         <nav><a href="/">Beranda</a> / {{ title }}</nav>
         <div class="page-content">
             <h1>{{ title }}</h1>

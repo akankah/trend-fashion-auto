@@ -11,6 +11,16 @@
     <meta property="og:type" content="article">
     <meta name="robots" content="index, follow">
     <link rel="stylesheet" href="/style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "{{ title }}",
+      "description": "{{ intro[:160] }}",
+      "author": { "@type": "Organization", "name": "{{ site_name }}" },
+      "publisher": { "@type": "Organization", "name": "{{ site_name }}" }
+    }
+    </script>
 </head>
 <body>
     <header>

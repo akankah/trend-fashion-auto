@@ -12,6 +12,27 @@
     <meta property="og:type" content="product">
     <meta name="robots" content="index, follow">
     <link rel="stylesheet" href="/style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "{{ title }}",
+      "description": "{{ description }}",
+      "image": "{{ image }}",
+      "offers": {
+        "@type": "Offer",
+        "price": "{{ price }}",
+        "priceCurrency": "IDR",
+        "url": "{{ affiliate_url }}",
+        "availability": "https://schema.org/InStock"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "{{ rating }}",
+        "reviewCount": "{{ reviews }}"
+      }
+    }
+    </script>
 </head>
 <body>
     <header>
@@ -40,7 +61,7 @@
             <div class="detail-info">
                 <h1>{{ title }}</h1>
                 <div class="rating-lg"><span class="stars">★</span> {{ rating }} <span class="reviews">({{ reviews }} penilaian)</span></div>
-                <div class="price-large">{{ price }}</div>
+                <div class="price-large">{{ price_fmt }}</div>
                 <p>{{ description }}</p>
                 <a href="{{ affiliate_url }}" class="btn" rel="nofollow sponsored" target="_blank">Lihat Produk di Shopee</a>
                 <div class="share-buttons">

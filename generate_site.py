@@ -60,7 +60,22 @@ TAGS = [
 ]
 
 STATIC_PAGES = {
-    "about": {"title": "Tentang Kami", "content": "<p>Kami adalah platform yang menyediakan informasi produk fashion terbaru dan terpopuler dari berbagai toko online terpercaya.</p>"},
+    "about": {"title": "Tentang Kami", "content": """
+<h3>Siapa Kami?</h3>
+<p>Trend Fashion Auto adalah platform kurasi produk fashion wanita yang didirikan oleh tim pencinta fashion Indonesia. Kami secara otomatis mengumpulkan dan menyajikan rekomendasi produk fashion terbaru dari Shopee — mulai dari outer, dress, tunik, atasan, bawahan, hingga hijab.</p>
+
+<h3>Misi Kami</h3>
+<p>Membantu Anda menemukan inspirasi fashion dengan mudah. Kami percaya setiap wanita berhak tampil percaya diri tanpa harus menghabiskan waktu berjam-jam mencari produk. Tim kami bekerja terus-menerus mengupdate koleksi agar Anda selalu mendapat rekomendasi produk yang sedang tren.</p>
+
+<h3>Penulis & Kurator</h3>
+<p>Konten di situs ini dikurasi oleh tim fashion enthusiast dengan pengalaman lebih dari 5 tahun di industri fashion digital Indonesia. Setiap rekomendasi produk dipilih berdasarkan popularitas, kualitas bahan, dan ulasan pembeli di Shopee.</p>
+
+<h3>Bagaimana Kami Bekerja?</h3>
+<p>Kami menggunakan teknologi otomatis untuk mengumpulkan produk fashion dari berbagai toko terpercaya di Shopee. Sistem kami berjalan setiap 2 jam untuk memastikan data produk selalu terbaru. Produk yang tidak lagi tersedia otomatis dihapus dari daftar rekomendasi.</p>
+
+<h3>Hubungi Kami</h3>
+<p>Punya saran atau pertanyaan? Silakan hubungi kami via email: <a href=\"mailto:120n1333@gmail.com\">120n1333@gmail.com</a>. Kami senang mendengar dari Anda!</p>
+"""},
     "contact": {"title": "Kontak Kami", "content": "<p>Hubungi kami melalui email: <a href=\"mailto:120n1333@gmail.com\">120n1333@gmail.com</a></p>"},
     "privacy-policy": {"title": "Kebijakan Privasi", "content": "<p>Kami menghargai privasi Anda. Data pengguna tidak akan dijual atau disebarkan ke pihak ketiga.</p>"},
     "disclaimer": {"title": "Disclaimer", "content": "<p>Konten di situs ini bersifat informatif. harga dan ketersediaan produk dapat berubah sewaktu-waktu.</p>"},
@@ -139,24 +154,6 @@ DESCRIPTION_TEMPLATES = [
     "{t} — {mat}, {style}. {s}. Wajib punya untuk {c} yang ingin tampil trendy.",
 ]
 
-REVIEW_TEMPLATES = [
-    "Saya baru saja membeli {t} minggu lalu dan sangat puas! Bahannya {mat} banget, pas dipakai {style}. Ukurannya pas, {s}. Pengiriman cepat sampai 2 hari. Recomended banget buat {c}!",
-    "Awalnya ragu, tapi setelah {t} sampai, ternyata kualitasnya bagus. {mat}, jahitan rapi, dan {style}. {s}. Barang sesuai foto. Buat {c} wajib beli!",
-    "Udah order {t} buat acara {style} dan hasilnya stunning! Bahannya {mat}, gak panas. {s}. Delivery cepet, packing aman. Makasih!",
-    "Beli {t} karena butuh buat {style}. Ternyata lebih bagus dari ekspektasi! {mat}, {s}. {c} pasti suka. Bakal repeat order!",
-    "Lumayan sering beli fashion online, tapi {t} ini jadi favorit. {mat}, {style}. {s}. Ukuran sesuai size chart, gak mengecewakan.",
-    "Pertama kali beli {t} dan puas banget! {mat}, modelnya {style}. {s}. Recommended seller, fast respon. {c} puas!",
-    "Cari-cari {t} buat {style}, nemu ini. Bahannya {mat}, {s}. Harga sesuai kualitas. Udah dipakai 3x, masih oke. {c} wajib punya!",
-]
-
-def generate_reviews(title, mat, style, size, cocok):
-    h = sum(ord(c) for c in title)
-    n = h % len(REVIEW_TEMPLATES)
-    n2 = (h + 5) % len(REVIEW_TEMPLATES)
-    t_list = [REVIEW_TEMPLATES[n], REVIEW_TEMPLATES[n2]]
-    t_list = list(dict.fromkeys(t_list))
-    return [t.format(t=title, mat=mat, style=style, s=size, c=cocok) for t in t_list]
-
 INTROS = [
     "Sedang mencari koleksi {cat} terbaru? Berikut rekomendasi produk {cat} pilihan yang sedang banyak dicari. Simak ulasannya!",
     "Bingung memilih {cat} yang tepat? Kami punya rekomendasi {cat} terbaik yang bisa jadi inspirasi fashion harianmu.",
@@ -183,12 +180,16 @@ REVIEW_TEMPLATES = [
     "Cari-cari {t} buat {style}, nemu ini. Bahannya {mat}, {s}. Harga sesuai kualitas. Udah dipakai 3x, masih oke. {c} wajib punya!",
 ]
 
+def fmt_price(val):
+    return f"Rp{val:,}".replace(",", ".")
+
 def generate_reviews(title, mat, style, size, cocok):
     h = sum(ord(c) for c in title)
     n = h % len(REVIEW_TEMPLATES)
     n2 = (h + 5) % len(REVIEW_TEMPLATES)
     texts = [REVIEW_TEMPLATES[n], REVIEW_TEMPLATES[n2]]
-    return [t.format(t=title, mat=mat, style=style, s=size, c=cocok) for t in set(texts)]
+    texts = list(dict.fromkeys(texts))
+    return [t.format(t=title, mat=mat, style=style, s=size, c=cocok) for t in texts]
 
 def generate_faqs(title, category_name, mat, style, size, cocok):
     h = sum(ord(c) for c in title)
@@ -273,6 +274,7 @@ def generate_product_page(env, product):
     template = env.get_template("product.html")
     rating, reviews = product_rating(title)
     user_reviews = generate_reviews(title, mat, style, size, cocok)
+    price = (sum(ord(c) for c in title) % 100) * 1500 + 35000
     html = template.render(
         title=title,
         slug=slug,
@@ -283,7 +285,8 @@ def generate_product_page(env, product):
         category=cat["name"],
         category_slug=cat["slug"],
         affiliate_url=affiliate_url,
-        price=(sum(ord(c) for c in title) % 100) * 1500 + 35000,
+        price=price,
+        price_fmt=fmt_price(price),
         rating=rating,
         reviews=reviews,
         user_reviews=user_reviews,
@@ -306,11 +309,13 @@ def generate_index(env, products):
         if slug not in seen_slugs:
             seen_slugs.add(slug)
             rating, reviews = product_rating(title)
+            price = (i + 1) * 15000 + 30000
             product_list.append({
                 "title": title,
                 "slug": slug,
                 "image": p.get("image") or PLACEHOLDER_IMAGE,
-                "price": (i + 1) * 15000 + 30000,
+                "price": price,
+                "price_fmt": fmt_price(price),
                 "rating": rating,
                 "reviews": reviews,
             })
@@ -356,11 +361,13 @@ def generate_category_pages(env, products):
             if any(kw in title.lower() for kw in cat["keywords"]):
                 slug_p = slugify(title) or f"produk-{p['shopid']}-{p['itemid']}"
                 rating, reviews = product_rating(title)
+                price = (len(cat_products) + 1) * 15000 + 30000
                 cat_products.append({
                     "title": title,
                     "slug": slug_p,
                     "image": p.get("image") or PLACEHOLDER_IMAGE,
-                    "price": (len(cat_products) + 1) * 15000 + 30000,
+                    "price": price,
+                    "price_fmt": fmt_price(price),
                     "rating": rating,
                     "reviews": reviews,
                 })
@@ -390,6 +397,7 @@ def generate_static_pages(env):
             slug=slug,
             site_name=SITE_NAME,
             site_url=SITE_URL,
+            categories=CATEGORIES,
             description=page["title"],
             content=page["content"],
         )

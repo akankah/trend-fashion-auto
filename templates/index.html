@@ -11,6 +11,16 @@
     <meta property="og:type" content="website">
     <meta name="robots" content="index, follow">
     <link rel="stylesheet" href="/style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "{{ site_name }}",
+      "url": "{{ site_url }}",
+      "description": "Platform rekomendasi produk fashion wanita terbaru dari berbagai toko terpercaya.",
+      "contactPoint": { "@type": "ContactPoint", "email": "120n1333@gmail.com", "contactType": "customer service" }
+    }
+    </script>
     <style>
         .product-card.hidden-p{display:none}
         .product-card.visible{display:block}
@@ -29,7 +39,7 @@
     <div class="container section-order">
         <section class="hero">
             <h2>Selamat Datang di {{ site_name }}</h2>
-            <p>Kami mengumpulkan rekomendasi produk fashion wanita terbaru dari berbagai toko terpercaya. Dari outer, dress, tunik, atasan, bawahan, hingga hijab - semuanya diupdate otomatis setiap hari. Dapatkan inspirasi outfit lengkap untuk berbagai acara!</p>
+            <p>Kami mengumpulkan rekomendasi produk fashion wanita terbaru. Dari outer, dress, tunik, atasan, bawahan, hingga hijab - semuanya diupdate setiap hari. Dapatkan inspirasi outfit lengkap untuk berbagai acara!</p>
         </section>
         <nav class="cat-float">
             <div class="cat-float-inner">
@@ -49,7 +59,7 @@
                     </div>
                     <div class="info">
                         <h3>{{ product.title }}</h3>
-                        <div class="price">{{ product.price }}</div>
+                        <div class="price">{{ product.price_fmt }}</div>
                         <div class="rating"><span class="stars">★</span> {{ product.rating }} <span class="reviews">({{ product.reviews }} penilaian)</span></div>
                     </div>
                 </a>
@@ -58,17 +68,6 @@
             {% else %}
             <p>Belum ada produk. Silakan kembali lagi nanti.</p>
             {% endif %}
-        </section>
-        <section class="section-kategori">
-            <h2>Kategori</h2>
-            <div class="category-list">
-                {% for cat in categories %}
-                <a href="/kategori/{{ cat.slug }}.html" class="category-item">
-                    <span class="cat-icon">{{ cat.icon }}</span>
-                    {{ cat.name }}
-                </a>
-                {% endfor %}
-            </div>
         </section>
     </div>
     <footer>

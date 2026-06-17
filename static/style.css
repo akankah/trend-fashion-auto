@@ -31,13 +31,12 @@ img{max-width:100%;height:auto;border-radius:6px}
 .product-card .info{padding:10px 12px 12px}
 .product-card h3{font-size:0.88rem;margin:0 0 4px;color:#222;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .product-card .price{font-size:0.95rem;font-weight:700;color:#ee4d2d;margin-top:4px}
-.product-card .price:before{content:"Rp "}
 .product-card .price:after{content:""}
 .product-card .rating{font-size:0.75rem;color:#888;margin-top:2px;display:flex;align-items:center;gap:2px}
 .product-card .rating .stars{color:#faca51;font-size:0.8rem}
 .product-card .rating .reviews{color:#999;font-size:0.7rem}
 .product-detail .price-large{font-size:1.6rem;font-weight:700;color:#ee4d2d;margin:8px 0}
-.product-detail .price-large:before{content:"Rp "}
+
 .product-detail .rating-lg{font-size:0.9rem;color:#888;margin:6px 0 4px;display:flex;align-items:center;gap:4px}
 .product-detail .rating-lg .stars{color:#faca51;font-size:1rem}
 .product-detail .rating-lg .reviews{color:#999;font-size:0.82rem}
