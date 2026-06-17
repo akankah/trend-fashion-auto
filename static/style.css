@@ -29,6 +29,8 @@ img{max-width:100%;height:auto;border-radius:6px}
   overflow-x: auto;
   overflow-y: hidden;
   width: 100%;
+  min-width: max-content;
+  -webkit-overflow-scrolling: touch;
   touch-action: pan-x;
 }
 
