@@ -13,12 +13,24 @@ SITE_URL = os.getenv("SITE_URL", "https://trend-fashion-auto.pages.dev")
 PLACEHOLDER_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' fill='%23f0f0f0'%3E%3Crect width='400' height='400'/%3E%3Ctext x='200' y='200' text-anchor='middle' fill='%23999' font-size='16'%3EProduct%3C/text%3E%3C/svg%3E"
 
 CATEGORIES = [
-    {"name": "Outer", "slug": "outer", "icon": "🧥", "keywords": ["outer", "jaket", "cardigan", "blazer"]},
-    {"name": "Dress", "slug": "dress", "icon": "👗", "keywords": ["dress", "gaun", "rok"]},
-    {"name": "Tunik", "slug": "tunik", "icon": "🥻", "keywords": ["tunik", "baju muslim", "gamis"]},
-    {"name": "Atasan", "slug": "atasan", "icon": "👚", "keywords": ["atasan", "blouse", "kemeja"]},
-    {"name": "Bawahan", "slug": "bawahan", "icon": "👖", "keywords": ["celana", "rok", "legging"]},
-    {"name": "Hijab", "slug": "hijab", "icon": "🧕", "keywords": ["hijab", "jilbab", "khimar"]},
+    {"name": "Outer", "slug": "outer", "icon": "🧥", "keywords": ["outer", "jaket", "cardigan", "blazer"],
+     "desc": "Temukan koleksi outer wanita terbaru mulai dari jaket, cardigan, blazer hingga vest. Cocok untuk melengkapi gaya harian atau acara formal dengan bahan nyaman dan model kekinian.",
+     "tips": "Padukan outer dengan atasan polos dan bawahan jeans untuk look casual yang tetap stylish."},
+    {"name": "Dress", "slug": "dress", "icon": "👗", "keywords": ["dress", "gaun", "rok"],
+     "desc": "Koleksi dress wanita terbaru dengan berbagai model: dress casual, dress kondangan, dress pesta, hingga gamis syari. Tersedia dalam berbagai ukuran dan bahan nyaman.",
+     "tips": "Pilih dress dengan warna netral untuk tampilan elegan atau warna cerah untuk look yang lebih ceria."},
+    {"name": "Tunik", "slug": "tunik", "icon": "🥻", "keywords": ["tunik", "baju muslim", "gamis"],
+     "desc": "Rekomendasi tunik dan gamis muslimah terbaru dengan model syari, modern, hingga batik. Nyaman dipakai sehari-hari maupun acara resmi.",
+     "tips": "Gamis dengan motif batik cocok untuk kondangan, sedangkan tunik polos lebih fleksibel untuk daily wear."},
+    {"name": "Atasan", "slug": "atasan", "icon": "👚", "keywords": ["atasan", "blouse", "kemeja"],
+     "desc": "Kumpulan atasan wanita terbaru: blouse, kemeja, kaos, dan crop top. Dari bahan katun, rayon, hingga satin untuk berbagai kesempatan.",
+     "tips": "Atasan dengan potongan loose cocok untuk gaya santai, sementara blouse fit lebih cocok ke kantor."},
+    {"name": "Bawahan", "slug": "bawahan", "icon": "👖", "keywords": ["celana", "rok", "legging"],
+     "desc": "Bawahan wanita mulai dari celana kulot, rok span, legging, hingga celana jeans. Lengkap dari ukuran kecil hingga big size.",
+     "tips": "Padukan rok span dengan atasan blouse untuk tampilan kantor yang rapi dan profesional."},
+    {"name": "Hijab", "slug": "hijab", "icon": "🧕", "keywords": ["hijab", "jilbab", "khimar"],
+     "desc": "Koleksi hijab, jilbab, dan khimar terbaru dengan bahan ceruty, voal, pashmina, dan jersey. Nyaman dipakai seharian.",
+     "tips": "Hijab berbahan voal cocok untuk cuaca panas karena adem, sementara ceruty memberi kesan lebih mewah untuk kondangan."},
 ]
 
 TAGS = [
@@ -56,19 +68,44 @@ def classify_product(title):
             return cat
     return CATEGORIES[0]
 
-def generate_faqs(title, category_name):
-    return [
-        {"q": f"Apa itu {title}?", "a": f"{title} adalah produk fashion kategori {category_name} yang sedang populer dan banyak dicari."},
-        {"q": f"Berapa harga {title}?", "a": f"Harga {title} bervariasi tergantung toko dan promo yang sedang berlangsung. Cek link di bawah untuk info harga terbaru."},
-        {"q": f"Dimana bisa beli {title}?", "a": f"Kamu bisa membeli {title} melalui link afiliasi yang tersedia di halaman ini."},
-        {"q": f"Apakah {title} tersedia dalam berbagai ukuran?", "a": f"Ketersediaan ukuran {title} tergantung pada masing-masing toko. Silakan cek deskripsi produk di halaman Shopee."},
+MATERIALS = ["bahan premium", "material berkualitas", "bahan nyaman", "bahan adem", "material lembut", "bahan tebal", "bahan ringan", "fabric halus"]
+STYLES = ["cocok untuk sehari-hari", "cocok untuk acara formal", "cocok untuk kondangan", "cocok untuk ke kantor", "cocok untuk hangout", "cocok untuk santai", "cocok untuk pesta", "cocok untuk acara spesial"]
+SIZES = ["Tersedia dari S sampai XL", "Tersedia dari XS sampai XXL", "Tersedia dari S sampai 3XL", "Ukuran bisa muat sampai BB 80kg", "Ukuran all size fit to XL", "Ukuran fleksibel", "Tersedia dalam berbagai ukuran", "Fit to L sampai XL"]
+
+def product_details(title):
+    h = sum(ord(c) for c in title)
+    mat = MATERIALS[h % len(MATERIALS)]
+    style = STYLES[(h + 3) % len(STYLES)]
+    size = SIZES[(h + 7) % len(SIZES)]
+    cocok = ["wanita", "remaja", "semua umur", "mahasiswi", "karyawan", "ibu rumah tangga"][h % 6]
+    return mat, style, size, cocok
+
+DESCRIPTION_TEMPLATES = [
+    "{t} adalah pilihan {mat} yang {style}. {s}. Produk ini cocok untuk {c} dan sedang banyak dicari.",
+    "Temukan {t}, {mat} dengan desain modern yang {style}. {s}. Direkomendasikan untuk {c}.",
+    "{t} hadir dengan {mat} yang elegan dan {style}. {s}. Produk terlaris untuk {c}.",
+    "Ingin tampil stylish? {t} solusinya! {mat}, {style}. {s}. Update fashion terkini untuk {c}.",
+    "{t} — {mat}, {style}. {s}. Wajib punya untuk {c} yang ingin tampil trendy.",
+]
+
+def generate_faqs(title, category_name, mat, style, size, cocok):
+    h = sum(ord(c) for c in title)
+    faqs = [
+        {"q": f"Apa kelebihan {title}?", "a": f"{title} memiliki {mat} yang nyaman dipakai {style}. {size} sehingga cocok untuk {cocok}."},
+        {"q": f"Bagaimana cara merawat {title}?", "a": "Cuci dengan air dingin, jangan gunakan pemutih, setrika dengan suhu rendah agar bahan tetap awet dan tidak rusak."},
+        {"q": f"Apakah {title} bisa untuk kondangan?", "a": "Tentu! Desainnya yang stylish membuatnya sangat cocok untuk acara kondangan, pesta, atau acara formal lainnya."},
+        {"q": f"Berapa estimasi pengiriman {title}?", "a": "Estimasi pengiriman 1-3 hari untuk wilayah Jawa, 3-7 hari untuk luar Jawa. Tergantung lokasi dan jasa kirim yang dipilih."},
+        {"q": f"Apakah {title} tersedia dalam berbagai ukuran?", "a": f"{size}. Cek tabel ukuran di halaman Shopee untuk detail lebih lanjut."},
     ]
+    return faqs
 
 def generate_product_page(env, product):
     title = product.get("title") or f"Produk Shopee {product['shopid']}.{product['itemid']}"
     cat = classify_product(title)
     slug = slugify(title) or f"produk-{product['shopid']}-{product['itemid']}"
-    description = f"Beli {title} dengan harga terbaik. Produk fashion kategori {cat['name']} terbaru dan terlaris."
+    mat, style, size, cocok = product_details(title)
+    desc_tpl = DESCRIPTION_TEMPLATES[sum(ord(c) for c in title) % len(DESCRIPTION_TEMPLATES)]
+    description = desc_tpl.format(t=title, mat=mat, style=style, s=size, c=cocok)
     affiliate_url = product.get("shortlink") or product.get("url") or f"https://shopee.co.id/product/{product['shopid']}/{product['itemid']}"
 
     template = env.get_template("product.html")
@@ -86,7 +123,7 @@ def generate_product_page(env, product):
         price=(sum(ord(c) for c in title) % 100) * 1500 + 35000,
         rating=rating,
         reviews=reviews,
-        faqs=generate_faqs(title, cat["name"]),
+        faqs=generate_faqs(title, cat["name"], mat, style, size, cocok),
     )
     return slug, html, cat["slug"]
 
@@ -128,7 +165,7 @@ def generate_category_pages(env, products):
     pages = {}
     for cat in CATEGORIES:
         cat_products = []
-        for p in products:
+        for i, p in enumerate(products):
             title = p.get("title") or f"Produk {p['shopid']}.{p['itemid']}"
             if any(kw in title.lower() for kw in cat["keywords"]):
                 slug_p = slugify(title) or f"produk-{p['shopid']}-{p['itemid']}"
@@ -145,6 +182,8 @@ def generate_category_pages(env, products):
         html = template.render(
             category=cat["name"],
             slug=cat["slug"],
+            desc=cat.get("desc", ""),
+            tips=cat.get("tips", ""),
             site_name=SITE_NAME,
             site_url=SITE_URL,
             products=cat_products,

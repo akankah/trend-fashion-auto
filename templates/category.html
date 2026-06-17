@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ category }} - {{ site_name }}</title>
-    <meta name="description" content="Kumpulan {{ category }} terbaru dan terlaris. Temukan {{ category }} murah dan berkualitas hanya di {{ site_name }}.">
+    <meta name="description" content="{{ desc[:160] }}">
     <link rel="canonical" href="{{ site_url }}/kategori/{{ slug }}.html">
     <meta name="robots" content="index, follow">
     <link rel="stylesheet" href="/style.css">
@@ -21,6 +21,14 @@
     <div class="container">
         <nav><a href="/">Beranda</a> / {{ category }}</nav>
         <h1>Koleksi {{ category }}</h1>
+        <div class="category-intro">
+            <p>{{ desc }}</p>
+            {% if tips %}
+            <div class="style-tips">
+                <strong>💡 Tips Styling:</strong> {{ tips }}
+            </div>
+            {% endif %}
+        </div>
         {% if products %}
         <div class="products">
             {% for product in products %}
