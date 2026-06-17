@@ -3,6 +3,8 @@ name: Auto Update
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'data/products.json'
   schedule:
     - cron: '0 */2 * * *'
   workflow_dispatch:
@@ -31,6 +33,18 @@ jobs:
 
       - name: Generate site
         run: python generate_site.py
+
+      - name: Commit updated data back to repo
+        run: |
+          git config user.name "Auto Bot"
+          git config user.email "bot@trend-fashion-auto.pages.dev"
+          git add data/products.json
+          if git diff --cached --quiet; then
+            echo "No data changes to commit"
+          else
+            git commit -m "auto-update data/products.json [skip ci]"
+            git push
+          fi
 
       - name: Deploy to Cloudflare Pages
         env:
