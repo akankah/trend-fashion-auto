@@ -9,17 +9,16 @@ SEO-optimized website otomatis yang mengambil data fashion wanita dari Collshp (
 - **Crawler API-first**: Collshp GraphQL API (`/api/v3/gql/graphql`) ambil semua produk (totalCount ~1100+), Playwright hanya untuk resolve shortlink redirect
 - **Auto-filter**: Hanya produk wanita (65+ keyword non-women diffilter otomatis). Filter diperbarui tiap crawl
 - **Auto-remove**: Produk yang sudah tidak ada di Collshp otomatis dihapus dari situs tiap crawl
-- **Infinite scroll**: 24 produk awal, 24 lagi tiap scroll (IntersectionObserver)
+- **Infinite scroll**: 24 produk awal rendered, sisanya fetch dari JSON via IntersectionObserver (page size kecil)
 - **Floating category bar**: Sticky horizontal scroll kategori di index, kategori, produk
 - **Auto-generated articles**: Artikel roundup + rekomendasi per-kategori dari produk real
-- **JSON-LD schema**: Organization, Product (harga + rating + offer), Article, FAQPage, WebPage
+- **JSON-LD schema**: Organization, Product (tanpa harga - cek di Shopee), Article, FAQPage, WebPage
 - **E-E-A-T**: About page dengan author bio, "5 tahun pengalaman fashion digital"
-- **Harga format IDR**: Rp65.000 (thousand separator titik)
-- **2 user reviews per produk**: Auto-generated dari template variatif
-- **Produk description**: Dinamis dari kombinasi MATERIALS, STYLES, SIZES
+- **Rating & review palsu dihapus**: Rating hanya di halaman produk detail untuk avoid AI detection
+- **Produk description**: Dinamis dari kombinasi MATERIALS, STYLES, SIZES variatif (10 template)
 - **Share buttons**: FB, WA, Telegram, LINE, Email, Copy Link
 - **Facebook page link**: Footer semua halaman + About page
-- **Mobile responsive**: Footer 2 baris (© + Artikel + Tentang + FAQ | Kontak + Privasi + Disclaimer + Afiliasi + Facebook)
+- **Mobile responsive**: Footer 2 baris, home-highlights horizontal scroll HP (15 produk tiap section)
 - **6 kategori**: Outer, Dress, Tunik, Atasan, Bawahan, Hijab
 
 ## Teknologi

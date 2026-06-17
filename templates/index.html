@@ -52,16 +52,14 @@
             <section class="hl-col">
                 <h2>Produk Terbaru</h2>
                 {% if products %}
-                <div class="products">
-                    {% for product in products[:6] %}
+                <div class="products hl-scroll">
+                    {% for product in products[:15] %}
                     <a href="/p/{{ product.slug }}.html" class="product-card">
                         <div class="img-wrap">
                             {% if product.image %}<img src="{{ product.image }}" alt="{{ product.title }}" loading="lazy">{% endif %}
                         </div>
                         <div class="info">
                             <h3>{{ product.title }}</h3>
-                            <div class="price">{{ product.price_fmt }}</div>
-                            <div class="rating"><span class="stars">★</span> {{ product.rating }} <span class="reviews">({{ product.reviews }} penilaian)</span></div>
                         </div>
                     </a>
                     {% endfor %}
@@ -71,16 +69,14 @@
             <section class="hl-col">
                 <h2>Produk Terlaris</h2>
                 {% if popular %}
-                <div class="products">
-                    {% for product in popular[:6] %}
+                <div class="products hl-scroll">
+                    {% for product in popular[:15] %}
                     <a href="/p/{{ product.slug }}.html" class="product-card">
                         <div class="img-wrap">
                             {% if product.image %}<img src="{{ product.image }}" alt="{{ product.title }}" loading="lazy">{% endif %}
                         </div>
                         <div class="info">
                             <h3>{{ product.title }}</h3>
-                            <div class="price">{{ product.price_fmt }}</div>
-                            <div class="rating"><span class="stars">★</span> {{ product.rating }} <span class="reviews">({{ product.reviews }} penilaian)</span></div>
                         </div>
                     </a>
                     {% endfor %}
@@ -93,14 +89,12 @@
             {% if products %}
             <div class="products" id="product-grid">
                 {% for product in products %}
-                <a href="/p/{{ product.slug }}.html" class="product-card{% if loop.index0 >= 24 %} hidden-p{% else %} visible{% endif %}">
+                <a href="/p/{{ product.slug }}.html" class="product-card visible">
                     <div class="img-wrap">
                         {% if product.image %}<img src="{{ product.image }}" alt="{{ product.title }}" loading="lazy">{% endif %}
                     </div>
                     <div class="info">
                         <h3>{{ product.title }}</h3>
-                        <div class="price">{{ product.price_fmt }}</div>
-                        <div class="rating"><span class="stars">★</span> {{ product.rating }} <span class="reviews">({{ product.reviews }} penilaian)</span></div>
                     </div>
                 </a>
                 {% endfor %}
@@ -117,7 +111,7 @@
     </footer>
 <div id="scroll-sentinel"></div>
 <script>
-(function(){var p=document.getElementById('product-grid');if(!p)return;var cards=p.querySelectorAll('.product-card.hidden-p');var total=cards.length;var idx=0;var batch=24;var sentinel=document.getElementById('scroll-sentinel');if(!sentinel)return;var obs=new IntersectionObserver(function(entries){if(entries[0].isIntersecting){var end=Math.min(idx+batch,total);for(var i=idx;i<end;i++){cards[i].classList.remove('hidden-p');cards[i].classList.add('visible')}idx=end;if(idx>=total){obs.disconnect()}}},{rootMargin:'200px'});obs.observe(sentinel)})();
+(function(){var g=document.getElementById('product-grid');if(!g)return;var s=document.getElementById('scroll-sentinel');if(!s)return;var batch=24,idx=0,loading=false,data=[];var obs=new IntersectionObserver(async function(e){if(!e[0].isIntersecting||loading)return;loading=true;if(data.length===0){try{var r=await fetch('/data/products_display.json');data=await r.json()}catch(d){loading=false;return}data=data.slice(24)}var end=Math.min(idx+batch,data.length);for(var i=idx;i<end;i++){var d=data[i];var a=document.createElement('a');a.href='/p/'+d.slug+'.html';a.className='product-card visible';a.innerHTML='<div class=\"img-wrap\">'+(d.image?'<img src=\"'+d.image+'\" alt=\"'+d.title+'\" loading=\"lazy\">':'')+'</div><div class=\"info\"><h3>'+d.title+'</h3></div>';g.appendChild(a)}idx=end;if(idx>=data.length){obs.disconnect()}loading=false},{rootMargin:'400px'});obs.observe(s)})();
 </script>
 </body>
 </html>
