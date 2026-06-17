@@ -16,34 +16,42 @@
 <body>
     <header>
         <div class="container">
-            <h1><a href="/">{{ site_name }}</a></h1>
+            <div class="logo">
+                <div class="logo-icon">F</div>
+                <h1><a href="/">{{ site_name }}</a></h1>
+            </div>
         </div>
     </header>
     <div class="container">
         <nav><a href="/">Beranda</a> / <a href="/kategori/{{ category_slug }}.html">{{ category }}</a> / {{ title }}</nav>
-        <article>
-            <h1>{{ title }}</h1>
-            {% if image %}
-            <img src="{{ image }}" alt="{{ title }}" loading="lazy">
-            {% endif %}
-            <p>{{ description }}</p>
-            <a href="{{ affiliate_url }}" class="btn" rel="nofollow sponsored" target="_blank">Lihat Produk di Shopee</a>
-            <section class="faq">
-                <h2>Pertanyaan Umum (FAQ)</h2>
-                {% for faq in faqs %}
-                <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                    <h3 itemprop="name">{{ faq.q }}</h3>
-                    <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                        <p itemprop="text">{{ faq.a }}</p>
-                    </div>
-                </div>
-                {% endfor %}
-            </section>
+        <article class="product-detail">
+            <div class="img-wrap">
+                {% if image %}
+                <img src="{{ image }}" alt="{{ title }}" loading="lazy">
+                {% endif %}
+            </div>
+            <div class="detail-info">
+                <h1>{{ title }}</h1>
+                <div class="price-large">{{ slug | length * 13000 + 35000 }}</div>
+                <p>{{ description }}</p>
+                <a href="{{ affiliate_url }}" class="btn" rel="nofollow sponsored" target="_blank">Lihat Produk di Shopee</a>
+            </div>
         </article>
+        <section class="faq">
+            <h2>Pertanyaan Umum (FAQ)</h2>
+            {% for faq in faqs %}
+            <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <h3 itemprop="name">{{ faq.q }}</h3>
+                <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text">{{ faq.a }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </section>
     </div>
     <footer>
         <div class="container">
-            <p>&copy; {{ site_name }} | <a href="/about.html">Tentang</a> | <a href="/contact.html">Kontak</a> | <a href="/privacy-policy.html">Privasi</a> | <a href="/disclaimer.html">Disclaimer</a></p>
+            <p>&copy; {{ site_name }} | <a href="/about.html">Tentang</a> | <a href="/contact.html">Kontak</a> | <a href="/privacy-policy.html">Privasi</a> | <a href="/disclaimer.html">Disclaimer</a> | <a href="/affiliate-disclosure.html">Afiliasi</a></p>
         </div>
     </footer>
 </body>

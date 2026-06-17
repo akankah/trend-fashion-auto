@@ -15,7 +15,10 @@
 <body>
     <header>
         <div class="container">
-            <h1><a href="/">{{ site_name }}</a></h1>
+            <div class="logo">
+                <div class="logo-icon">F</div>
+                <h1><a href="/">{{ site_name }}</a></h1>
+            </div>
         </div>
     </header>
     <div class="container section-order">
@@ -25,9 +28,13 @@
             <div class="products">
                 {% for product in products %}
                 <a href="/p/{{ product.slug }}.html" class="product-card">
-                    {% if product.image %}<img src="{{ product.image }}" alt="{{ product.title }}" loading="lazy">{% endif %}
+                    <div class="img-wrap">
+                        {% if product.image %}<img src="{{ product.image }}" alt="{{ product.title }}" loading="lazy">{% endif %}
+                        <span class="badge">BARU</span>
+                    </div>
                     <div class="info">
                         <h3>{{ product.title }}</h3>
+                        <div class="price">{{ loop.index * 15000 + 30000 }}</div>
                     </div>
                 </a>
                 {% endfor %}
@@ -38,9 +45,12 @@
         </section>
         <section class="section-kategori">
             <h2>Kategori</h2>
-            <div class="category-list category-list-home">
+            <div class="category-list">
                 {% for cat in categories %}
-                <a href="/kategori/{{ cat.slug }}.html" class="category-item">{{ cat.name }}</a>
+                <a href="/kategori/{{ cat.slug }}.html" class="category-item">
+                    <span class="cat-icon">{{ cat.icon }}</span>
+                    {{ cat.name }}
+                </a>
                 {% endfor %}
             </div>
         </section>

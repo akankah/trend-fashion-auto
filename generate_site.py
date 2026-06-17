@@ -13,12 +13,12 @@ SITE_URL = os.getenv("SITE_URL", "https://trend-fashion-auto.pages.dev")
 PLACEHOLDER_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' fill='%23f0f0f0'%3E%3Crect width='400' height='400'/%3E%3Ctext x='200' y='200' text-anchor='middle' fill='%23999' font-size='16'%3EProduct%3C/text%3E%3C/svg%3E"
 
 CATEGORIES = [
-    {"name": "Outer", "slug": "outer", "keywords": ["outer", "jaket", "cardigan", "blazer"]},
-    {"name": "Dress", "slug": "dress", "keywords": ["dress", "gaun", "rok"]},
-    {"name": "Tunik", "slug": "tunik", "keywords": ["tunik", "baju muslim", "gamis"]},
-    {"name": "Atasan", "slug": "atasan", "keywords": ["atasan", "blouse", "kemeja"]},
-    {"name": "Bawahan", "slug": "bawahan", "keywords": ["celana", "rok", "legging"]},
-    {"name": "Hijab", "slug": "hijab", "keywords": ["hijab", "jilbab", "khimar"]},
+    {"name": "Outer", "slug": "outer", "icon": "🧥", "keywords": ["outer", "jaket", "cardigan", "blazer"]},
+    {"name": "Dress", "slug": "dress", "icon": "👗", "keywords": ["dress", "gaun", "rok"]},
+    {"name": "Tunik", "slug": "tunik", "icon": "🥻", "keywords": ["tunik", "baju muslim", "gamis"]},
+    {"name": "Atasan", "slug": "atasan", "icon": "👚", "keywords": ["atasan", "blouse", "kemeja"]},
+    {"name": "Bawahan", "slug": "bawahan", "icon": "👖", "keywords": ["celana", "rok", "legging"]},
+    {"name": "Hijab", "slug": "hijab", "icon": "🧕", "keywords": ["hijab", "jilbab", "khimar"]},
 ]
 
 TAGS = [
