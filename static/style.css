@@ -54,7 +54,10 @@ img{max-width:100%;height:auto;border-radius:6px}
 
 footer{background:#222;padding:28px 0;margin-top:40px;color:#999;font-size:0.82rem}
 footer .container{padding:0 16px}
-footer a{color:#ccc;margin:0 6px}
+footer p{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px 8px}
+footer .copyright{display:inline}
+footer .sep{display:inline;color:#555}
+footer a{color:#ccc}
 footer a:hover{color:#ee4d2d}
 
 .page-content{background:#fff;padding:24px;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,0.06);margin:12px 0}
@@ -88,7 +91,9 @@ footer a:hover{color:#ee4d2d}
   .btn{display:block;text-align:center;padding:10px 20px;font-size:0.88rem}
   footer{font-size:0.72rem;padding:20px 0}
   footer .container{padding:0 12px}
-  footer a{margin:0 4px}
+  footer p{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:2px 6px}
+  footer .copyright{width:100%;text-align:center;margin-bottom:4px}
+  footer .sep{display:none}
   .product-detail .detail-info{padding:14px 16px}
   .product-detail h1{font-size:1.1rem}
   .product-detail .price-large{font-size:1.3rem}
