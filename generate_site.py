@@ -287,6 +287,7 @@ def generate_product_page(env, product):
         rating=rating,
         reviews=reviews,
         user_reviews=user_reviews,
+        categories=CATEGORIES,
     )
     return slug, html, cat["slug"]
 
