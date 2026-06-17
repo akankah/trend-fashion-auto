@@ -47,17 +47,6 @@
             <p>Belum ada produk. Silakan kembali lagi nanti.</p>
             {% endif %}
         </section>
-        <section class="section-artikel">
-            <h2>Artikel Fashion</h2>
-            <div class="article-list">
-                {% for art in articles %}
-                <a href="/artikel/{{ art.slug }}.html" class="article-card">
-                    <h3>{{ art.title }}</h3>
-                    <p>{{ art.intro[:120] }}...</p>
-                </a>
-                {% endfor %}
-            </div>
-        </section>
         <section class="section-kategori">
             <h2>Kategori</h2>
             <div class="category-list">
@@ -72,7 +61,7 @@
     </div>
     <footer>
         <div class="container">
-            <p><span class="copyright">&copy; {{ site_name }}</span> <span class="sep">|</span> <a href="/about.html">Tentang</a> <span class="sep">|</span> <a href="/faq.html">FAQ</a> <span class="sep">|</span> <a href="/contact.html">Kontak</a> <span class="sep">|</span> <a href="/privacy-policy.html">Privasi</a> <span class="sep">|</span> <a href="/disclaimer.html">Disclaimer</a> <span class="sep">|</span> <a href="/affiliate-disclosure.html">Afiliasi</a></p>
+            <p><span class="copyright">&copy; {{ site_name }}</span> <span class="sep">|</span> <a href="/artikel.html">Artikel</a> <span class="sep">|</span> <a href="/about.html">Tentang</a> <span class="sep">|</span> <a href="/faq.html">FAQ</a> <span class="sep">|</span> <a href="/contact.html">Kontak</a> <span class="sep">|</span> <a href="/privacy-policy.html">Privasi</a> <span class="sep">|</span> <a href="/disclaimer.html">Disclaimer</a> <span class="sep">|</span> <a href="/affiliate-disclosure.html">Afiliasi</a></p>
         </div>
     </footer>
 </body>

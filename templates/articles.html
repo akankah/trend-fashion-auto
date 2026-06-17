@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artikel Fashion - {{ site_name }}</title>
+    <meta name="description" content="Kumpulan artikel fashion wanita terbaru: tips padu padan, rekomendasi outfit, dan panduan memilih busana untuk berbagai acara.">
+    <link rel="canonical" href="{{ site_url }}/artikel.html">
+    <meta property="og:title" content="Artikel Fashion - {{ site_name }}">
+    <meta property="og:description" content="Kumpulan artikel fashion wanita terbaru: tips padu padan, rekomendasi outfit, dan panduan memilih busana.">
+    <meta property="og:type" content="website">
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">F</div>
+                <h1><a href="/">{{ site_name }}</a></h1>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <nav><a href="/">Beranda</a> / Artikel</nav>
+        <h1>Semua Artikel Fashion</h1>
+        <div class="article-list">
+            {% for art in articles %}
+            <a href="/artikel/{{ art.slug }}.html" class="article-card">
+                <h3>{{ art.title }}</h3>
+                <p>{{ art.intro[:120] }}...</p>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+            <p><span class="copyright">&copy; {{ site_name }}</span> <span class="sep">|</span> <a href="/about.html">Tentang</a> <span class="sep">|</span> <a href="/artikel.html">Artikel</a> <span class="sep">|</span> <a href="/faq.html">FAQ</a> <span class="sep">|</span> <a href="/contact.html">Kontak</a> <span class="sep">|</span> <a href="/privacy-policy.html">Privasi</a> <span class="sep">|</span> <a href="/disclaimer.html">Disclaimer</a> <span class="sep">|</span> <a href="/affiliate-disclosure.html">Afiliasi</a></p>
+        </div>
+    </footer>
+</body>
+</html>

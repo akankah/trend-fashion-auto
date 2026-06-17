@@ -300,6 +300,15 @@ def generate_article_page(env, article):
     )
     return html
 
+def generate_articles_index(env):
+    template = env.get_template("articles.html")
+    html = template.render(
+        site_name=SITE_NAME,
+        site_url=SITE_URL,
+        articles=ARTICLES_DATA,
+    )
+    return html
+
 def generate_category_pages(env, products):
     pages = {}
     for cat in CATEGORIES:
@@ -352,6 +361,7 @@ def generate_sitemap(products):
              '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
 
     lines.append(f"  <url><loc>{SITE_URL}/</loc><priority>1.0</priority></url>")
+    lines.append(f"  <url><loc>{SITE_URL}/artikel.html</loc><priority>0.9</priority></url>")
 
     for slug in STATIC_PAGES:
         lines.append(f"  <url><loc>{SITE_URL}/{slug}.html</loc><priority>0.8</priority></url>")
@@ -420,6 +430,11 @@ def main():
         with open(f"{OUTPUT_DIR}/artikel/{art['slug']}.html", "w", encoding="utf-8") as f:
             f.write(html)
     print(f"[Generator] Article pages generated: {len(ARTICLES_DATA)}")
+
+    articles_index = generate_articles_index(env)
+    with open(f"{OUTPUT_DIR}/artikel.html", "w", encoding="utf-8") as f:
+        f.write(articles_index)
+    print("[Generator] Articles index page generated")
 
     static_pages = generate_static_pages(env)
     for slug, html in static_pages.items():
