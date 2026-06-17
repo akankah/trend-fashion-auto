@@ -31,6 +31,13 @@
             <h2>Selamat Datang di {{ site_name }}</h2>
             <p>Kami mengumpulkan rekomendasi produk fashion wanita terbaru dari berbagai toko terpercaya. Dari outer, dress, tunik, atasan, bawahan, hingga hijab - semuanya diupdate otomatis setiap hari. Dapatkan inspirasi outfit lengkap untuk berbagai acara!</p>
         </section>
+        <nav class="cat-float">
+            <div class="cat-float-inner">
+                {% for cat in categories %}
+                <a href="/kategori/{{ cat.slug }}.html" class="cat-float-item">{{ cat.icon }} {{ cat.name }}</a>
+                {% endfor %}
+            </div>
+        </nav>
         <section class="section-produk">
             <h2>Produk Terbaru</h2>
             {% if products %}

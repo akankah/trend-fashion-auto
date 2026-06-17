@@ -19,6 +19,13 @@
         </div>
     </header>
     <div class="container">
+        <nav class="cat-float">
+            <div class="cat-float-inner">
+                {% for cat in categories %}
+                <a href="/kategori/{{ cat.slug }}.html" class="cat-float-item{% if cat.name == category %} active{% endif %}">{{ cat.icon }} {{ cat.name }}</a>
+                {% endfor %}
+            </div>
+        </nav>
         <nav><a href="/">Beranda</a> / {{ category }}</nav>
         <h1>Koleksi {{ category }}</h1>
         <div class="category-intro">

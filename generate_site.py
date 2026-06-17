@@ -347,6 +347,7 @@ def generate_category_pages(env, products):
             tips=cat.get("tips", ""),
             site_name=SITE_NAME,
             site_url=SITE_URL,
+            categories=CATEGORIES,
             products=cat_products,
             articles=cat_articles,
         )
