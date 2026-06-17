@@ -31,7 +31,7 @@ TAGS = [
 
 STATIC_PAGES = {
     "about": {"title": "Tentang Kami", "content": "<p>Kami adalah platform yang menyediakan informasi produk fashion terbaru dan terpopuler dari berbagai toko online terpercaya.</p>"},
-    "contact": {"title": "Kontak Kami", "content": "<p>Hubungi kami melalui email: contact@example.com</p>"},
+    "contact": {"title": "Kontak Kami", "content": "<p>Hubungi kami melalui email: <a href=\"mailto:120n1333@gmail.com\">120n1333@gmail.com</a></p>"},
     "privacy-policy": {"title": "Kebijakan Privasi", "content": "<p>Kami menghargai privasi Anda. Data pengguna tidak akan dijual atau disebarkan ke pihak ketiga.</p>"},
     "disclaimer": {"title": "Disclaimer", "content": "<p>Konten di situs ini bersifat informatif. harga dan ketersediaan produk dapat berubah sewaktu-waktu.</p>"},
     "affiliate-disclosure": {"title": "Pengungkapan Afiliasi", "content": "<p>Situs ini menggunakan link afiliasi. Kami dapat memperoleh komisi dari pembelian yang dilakukan melalui link ini.</p>"},
