@@ -33,6 +33,19 @@ CATEGORIES = [
      "tips": "Hijab berbahan voal cocok untuk cuaca panas karena adem, sementara ceruty memberi kesan lebih mewah untuk kondangan."},
 ]
 
+NON_WOMEN_KEYWORDS = [
+    "pria", "laki", "cowok", "man ", "men ", "boy", "boxer",
+    "sandal", "sepatu", "kaos kaki", "kacamata", "jam tangan",
+    "handphone", "hp ", "elektronik", "casing", "charger", "kabel data",
+    "powerbank", "mouse", "keyboard", "headset", "earphone",
+    "aksesoris mobil", "peralatan rumah", "mainan",
+    "jaket pria", "kemeja pria", "celana pria", "kaos pria",
+    "topi", "jas hujan", "hujan hoodie",
+    "baju tidur pria", "piyama pria", "vest pria",
+    "kava jacket", "jaket anti uv", "olahraga lari",
+    "flanel pria", "setelan atasan pria",
+]
+
 TAGS = [
     {"name": "Muslimah", "slug": "muslimah"},
     {"name": "Kondangan", "slug": "kondangan"},
@@ -92,6 +105,16 @@ def classify_product(title):
         if any(kw in title_lower for kw in cat["keywords"]):
             return cat
     return CATEGORIES[0]
+
+def is_womens_fashion(title):
+    t = title.lower()
+    if any(kw in t for kw in NON_WOMEN_KEYWORDS):
+        return False
+    if "wanita" in t or "cewek" in t or "perempuan" in t or "muslimah" in t or "busui" in t:
+        return True
+    if any(kw in t for kw in ["gamis", "dress", "blouse", "hijab", "jilbab", "rok", "legging", "mukena", "khimar"]):
+        return True
+    return True
 
 MATERIALS = ["bahan premium", "material berkualitas", "bahan nyaman", "bahan adem", "material lembut", "bahan tebal", "bahan ringan", "fabric halus"]
 STYLES = ["cocok untuk sehari-hari", "cocok untuk acara formal", "cocok untuk kondangan", "cocok untuk ke kantor", "cocok untuk hangout", "cocok untuk santai", "cocok untuk pesta", "cocok untuk acara spesial"]
@@ -403,6 +426,12 @@ def main():
 
     products = load_products()
     print(f"[Generator] Products loaded: {len(products)}")
+
+    before = len(products)
+    products = [p for p in products if is_womens_fashion(p.get("title") or "")]
+    removed = before - len(products)
+    if removed:
+        print(f"[Generator] Filtered out {removed} non-womens products")
 
     if os.path.exists(OUTPUT_DIR):
         shutil.rmtree(OUTPUT_DIR)
