@@ -12,7 +12,10 @@
 <body>
     <header>
         <div class="container">
-            <h1><a href="/">{{ site_name }}</a></h1>
+            <div class="logo">
+                <div class="logo-icon">F</div>
+                <h1><a href="/">{{ site_name }}</a></h1>
+            </div>
         </div>
     </header>
     <div class="container">
@@ -22,9 +25,13 @@
         <div class="products">
             {% for product in products %}
             <a href="/p/{{ product.slug }}.html" class="product-card">
-                {% if product.image %}<img src="{{ product.image }}" alt="{{ product.title }}" loading="lazy">{% endif %}
+                <div class="img-wrap">
+                    {% if product.image %}<img src="{{ product.image }}" alt="{{ product.title }}" loading="lazy">{% endif %}
+                </div>
                 <div class="info">
                     <h3>{{ product.title }}</h3>
+                    <div class="price">{{ product.price }}</div>
+                    <div class="rating"><span class="stars">★</span> {{ product.rating }} <span class="reviews">({{ product.reviews }} penilaian)</span></div>
                 </div>
             </a>
             {% endfor %}

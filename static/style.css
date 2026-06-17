@@ -33,8 +33,14 @@ img{max-width:100%;height:auto;border-radius:6px}
 .product-card .price{font-size:0.95rem;font-weight:700;color:#ee4d2d;margin-top:4px}
 .product-card .price:before{content:"Rp "}
 .product-card .price:after{content:""}
-.product-detail .price-large{font-size:1.6rem;font-weight:700;color:#ee4d2d;margin:12px 0}
+.product-card .rating{font-size:0.75rem;color:#888;margin-top:2px;display:flex;align-items:center;gap:2px}
+.product-card .rating .stars{color:#faca51;font-size:0.8rem}
+.product-card .rating .reviews{color:#999;font-size:0.7rem}
+.product-detail .price-large{font-size:1.6rem;font-weight:700;color:#ee4d2d;margin:8px 0}
 .product-detail .price-large:before{content:"Rp "}
+.product-detail .rating-lg{font-size:0.9rem;color:#888;margin:6px 0 4px;display:flex;align-items:center;gap:4px}
+.product-detail .rating-lg .stars{color:#faca51;font-size:1rem}
+.product-detail .rating-lg .reviews{color:#999;font-size:0.82rem}
 
 .category-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:12px 0}
 .category-item{background:#fff;padding:18px 14px;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,0.06);text-align:center;font-weight:600;color:#333;font-size:0.92rem;transition:all .2s;border:1px solid #f0f0f0}
@@ -72,6 +78,7 @@ footer a:hover{color:#ee4d2d}
   .product-card .info{padding:8px}
   .product-card h3{font-size:0.8rem}
   .product-card .price{font-size:0.82rem}
+  .product-card .rating{font-size:0.65rem}
   h1{font-size:1.2rem}
   h2{font-size:1rem;margin:16px 0 8px}
   .container{padding:0 8px}

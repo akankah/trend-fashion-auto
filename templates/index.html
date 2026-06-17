@@ -30,11 +30,11 @@
                 <a href="/p/{{ product.slug }}.html" class="product-card">
                     <div class="img-wrap">
                         {% if product.image %}<img src="{{ product.image }}" alt="{{ product.title }}" loading="lazy">{% endif %}
-                        <span class="badge">BARU</span>
                     </div>
                     <div class="info">
                         <h3>{{ product.title }}</h3>
-                        <div class="price">{{ loop.index * 15000 + 30000 }}</div>
+                        <div class="price">{{ product.price }}</div>
+                        <div class="rating"><span class="stars">★</span> {{ product.rating }} <span class="reviews">({{ product.reviews }} penilaian)</span></div>
                     </div>
                 </a>
                 {% endfor %}
