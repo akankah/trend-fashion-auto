@@ -34,7 +34,7 @@ CATEGORIES = [
 ]
 
 NON_WOMEN_KEYWORDS = [
-    "pria", "laki", "cowok", "man ", "men ", "boy", "boxer",
+    "pria", "laki", "cowok", "men ", "boy", "boxer",
     "sandal", "sepatu", "kaos kaki", "kacamata", "jam tangan",
     "handphone", "hp ", "elektronik", "casing", "charger", "kabel data",
     "powerbank", "mouse", "keyboard", "headset", "earphone",
