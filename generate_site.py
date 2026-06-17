@@ -44,6 +44,11 @@ NON_WOMEN_KEYWORDS = [
     "baju tidur pria", "piyama pria", "vest pria",
     "kava jacket", "jaket anti uv", "olahraga lari",
     "flanel pria", "setelan atasan pria",
+    "varsity", "baseball", "racing", "motor",
+    "nascar", "sunmori", "authentication jacket",
+    "tactical", "unisex", "gelang", "tasbih", "kesehatan", "giok",
+    "pembersih", "mesin", "kenalpot", "stiker", "sticker",
+    "windbreaker", "parka", "crewneck unisex",
 ]
 
 TAGS = [
@@ -110,9 +115,7 @@ def is_womens_fashion(title):
     t = title.lower()
     if any(kw in t for kw in NON_WOMEN_KEYWORDS):
         return False
-    if "wanita" in t or "cewek" in t or "perempuan" in t or "muslimah" in t or "busui" in t:
-        return True
-    if any(kw in t for kw in ["gamis", "dress", "blouse", "hijab", "jilbab", "rok", "legging", "mukena", "khimar"]):
+    if any(kw in t for kw in ["wanita", "cewek", "perempuan", "muslimah", "busui", "gamis", "dress", "blouse", "hijab", "jilbab", "rok", "legging", "mukena", "khimar"]):
         return True
     return True
 
