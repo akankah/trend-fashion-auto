@@ -47,6 +47,31 @@ STATIC_PAGES = {
     "privacy-policy": {"title": "Kebijakan Privasi", "content": "<p>Kami menghargai privasi Anda. Data pengguna tidak akan dijual atau disebarkan ke pihak ketiga.</p>"},
     "disclaimer": {"title": "Disclaimer", "content": "<p>Konten di situs ini bersifat informatif. harga dan ketersediaan produk dapat berubah sewaktu-waktu.</p>"},
     "affiliate-disclosure": {"title": "Pengungkapan Afiliasi", "content": "<p>Situs ini menggunakan link afiliasi. Kami dapat memperoleh komisi dari pembelian yang dilakukan melalui link ini.</p>"},
+    "faq": {"title": "Pertanyaan Umum (FAQ)", "content": """
+<h3>Apa itu Trend Fashion Auto?</h3>
+<p>Trend Fashion Auto adalah platform yang mengumpulkan rekomendasi produk fashion wanita terbaru dari berbagai toko terpercaya. Kami mengupdate konten secara otomatis setiap hari.</p>
+
+<h3>Bagaimana cara membeli produk?</h3>
+<p>Klik tombol "Lihat Produk di Shopee" pada halaman produk. Anda akan diarahkan ke halaman Shopee untuk melakukan pembelian langsung.</p>
+
+<h3>Apakah harga yang ditampilkan akurat?</h3>
+<p>Harga dapat berubah sewaktu-waktu tergantung toko dan promo yang sedang berlangsung. Harga final akan ditampilkan di halaman Shopee.</p>
+
+<h3>Berapa lama estimasi pengiriman?</h3>
+<p>Estimasi pengiriman 1-3 hari untuk wilayah Jawa, 3-7 hari untuk luar Jawa. Tergantung lokasi dan jasa kirim yang dipilih.</p>
+
+<h3>Bagaimana cara merawat produk fashion?</h3>
+<p>Cuci dengan air dingin, jangan gunakan pemutih, setrika dengan suhu rendah agar bahan tetap awet dan tidak rusak. Selalu cek label perawatan di setiap produk.</p>
+
+<h3>Apakah situs ini menjual produk?</h3>
+<p>Tidak, kami hanya menyediakan informasi dan rekomendasi produk. Pembelian dilakukan melalui Shopee. Kami tidak menyimpan stok atau memproses pembayaran.</p>
+
+<h3>Apakah link afiliasi mempengaruhi harga?</h3>
+<p>Tidak. Harga yang Anda bayarkan tetap sama. Kami mendapat komisi kecil dari Shopee tanpa biaya tambahan untuk pembeli.</p>
+
+<h3>Bagaimana cara menghubungi kami?</h3>
+<p>Hubungi kami melalui email: <a href="mailto:120n1333@gmail.com">120n1333@gmail.com</a></p>
+"""},
 }
 
 def slugify(text):
@@ -223,7 +248,6 @@ def generate_product_page(env, product):
         rating=rating,
         reviews=reviews,
         user_reviews=user_reviews,
-        faqs=generate_faqs(title, cat["name"], mat, style, size, cocok),
     )
     return slug, html, cat["slug"]
 
@@ -293,6 +317,7 @@ def generate_category_pages(env, products):
                     "rating": rating,
                     "reviews": reviews,
                 })
+        cat_articles = [a for a in ARTICLES_DATA if a["category"] == cat["name"]]
         template = env.get_template("category.html")
         html = template.render(
             category=cat["name"],
@@ -302,6 +327,7 @@ def generate_category_pages(env, products):
             site_name=SITE_NAME,
             site_url=SITE_URL,
             products=cat_products,
+            articles=cat_articles,
         )
         pages[cat["slug"]] = html
     return pages

@@ -124,6 +124,8 @@ footer a:hover{color:#ee4d2d}
 .share-btn.copy{background:#eee;color:#333}
 .share-btn:hover{transform:scale(1.05);opacity:.9;color:#fff}
 .share-btn.copy:hover{background:#ddd;color:#333}
+.faq-page h3{font-size:1rem;color:#222;margin:20px 0 6px;padding-left:12px;border-left:3px solid #ee4d2d}
+.faq-page p{font-size:0.9rem;color:#555;line-height:1.6;margin:0 0 12px 12px}
 
 .reviews{margin:20px 0}
 .review-item{background:#fff;border-radius:8px;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,0.04);display:flex;gap:10px;align-items:flex-start}
@@ -136,8 +138,7 @@ footer a:hover{color:#ee4d2d}
 .article-card{background:#fff;border-radius:10px;padding:18px 20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);transition:all .25s;border:1px solid #f0f0f0}
 .article-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,0.08);border-color:#ee4d2d;text-decoration:none}
 .article-card h3{font-size:0.95rem;color:#222;margin:0 0 6px;line-height:1.4}
-.article-card p{font-size:0.85rem;color:#777;margin:0 0 8px;line-height:1.5}
-.article-readmore{font-size:0.82rem;color:#ee4d2d;font-weight:600}
+.article-card p{font-size:0.85rem;color:#777;margin:0;line-height:1.5}
 .article-content{background:#fff;border-radius:10px;padding:24px;box-shadow:0 1px 3px rgba(0,0,0,0.06);margin:12px 0}
 .article-content h1{font-size:1.4rem;margin-bottom:8px;line-height:1.4}
 .article-intro{font-size:0.95rem;color:#555;line-height:1.6;margin-bottom:16px}
