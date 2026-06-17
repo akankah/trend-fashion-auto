@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ category }} - {{ site_name }}</title>
+    <meta name="description" content="Kumpulan {{ category }} terbaru dan terlaris. Temukan {{ category }} murah dan berkualitas hanya di {{ site_name }}.">
+    <link rel="canonical" href="{{ site_url }}/kategori/{{ slug }}.html">
+</head>
+<body>
+    <nav><a href="/">Home</a> / {{ category }}</nav>
+    <h1>Koleksi {{ category }}</h1>
+    <div class="products">
+        {% for product in products %}
+        <article>
+            <a href="/p/{{ product.slug }}.html">
+                {% if product.image %}<img src="{{ product.image }}" alt="{{ product.title }}" loading="lazy">{% endif %}
+                <h2>{{ product.title }}</h2>
+            </a>
+        </article>
+        {% endfor %}
+    </div>
+</body>
+</html>

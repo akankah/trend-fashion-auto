@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ site_name }}</title>
+    <meta name="description" content="{{ site_name }} - Temukan produk fashion terbaru dan terlaris. Update setiap hari!">
+    <link rel="canonical" href="{{ site_url }}">
+</head>
+<body>
+    <h1>{{ site_name }}</h1>
+    <p>Temukan produk fashion terbaru dan terpopuler. Update otomatis setiap hari!</p>
+    <section>
+        <h2>Kategori</h2>
+        <ul>
+            {% for cat in categories %}
+            <li><a href="/kategori/{{ cat.slug }}.html">{{ cat.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </section>
+    <section>
+        <h2>Produk Terbaru</h2>
+        <div class="products">
+            {% for product in products %}
+            <article>
+                <a href="/p/{{ product.slug }}.html">
+                    {% if product.image %}<img src="{{ product.image }}" alt="{{ product.title }}" loading="lazy">{% endif %}
+                    <h3>{{ product.title }}</h3>
+                </a>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+</body>
+</html>

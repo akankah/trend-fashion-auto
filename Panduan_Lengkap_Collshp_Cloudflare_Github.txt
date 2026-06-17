@@ -1,0 +1,271 @@
+
+PANDUAN LENGKAP DARI NOL
+PROYEK: COLLSHP -> WEBSITE SEO OTOMATIS -> GITHUB -> CLOUDFLARE PAGES
+
+TUJUAN
+=======
+Sumber data:
+https://collshp.com/shopeemurahkekinian?share_channel_code=2
+
+Hasil:
+- Website SEO otomatis
+- Update otomatis tanpa PC menyala
+- Hosting gratis
+- GitHub Actions sebagai scheduler
+- Cloudflare Pages sebagai hosting
+
+==================================================
+TAHAP 1 - MEMBUAT AKUN GITHUB
+==================================================
+
+1. Buka https://github.com
+2. Klik Sign Up
+3. Verifikasi email
+4. Login
+5. Klik New Repository
+
+Nama repository:
+trend-fashion-auto
+
+Pilih:
+- Public
+- Add README
+
+Klik Create Repository
+
+==================================================
+TAHAP 2 - MEMBUAT AKUN CLOUDFLARE
+==================================================
+
+1. Buka https://dash.cloudflare.com
+2. Daftar akun
+3. Verifikasi email
+4. Masuk Dashboard
+
+==================================================
+TAHAP 3 - MEMBUAT CLOUDFLARE PAGES
+==================================================
+
+1. Workers & Pages
+2. Create Application
+3. Pages
+4. Connect to Git
+
+Hubungkan GitHub
+
+Pilih repository:
+trend-fashion-auto
+
+Framework:
+None
+
+Build Command:
+kosong
+
+Output Directory:
+generated
+
+Deploy
+
+==================================================
+TAHAP 4 - STRUKTUR REPOSITORY
+==================================================
+
+trend-fashion-auto/
+
+.github/
+  workflows/
+     update.yml
+
+generated/
+data/
+templates/
+
+crawler.py
+generate_site.py
+requirements.txt
+.env
+
+==================================================
+TAHAP 5 - FILE .ENV
+==================================================
+
+COLLSHP_SOURCE=https://collshp.com/shopeemurahkekinian?share_channel_code=2
+
+SITE_NAME=Trend Fashion Auto
+SITE_URL=https://domainkamu.com
+
+UPDATE_INTERVAL=120
+
+==================================================
+TAHAP 6 - CARA KERJA CRAWLER
+==================================================
+
+Crawler:
+1. Buka halaman Collshp
+2. Cari link s.shopee.co.id
+3. Follow redirect
+4. Dapat URL produk Shopee
+5. Simpan data
+
+Contoh:
+
+s.shopee.co.id/xxxxx
+
+menjadi
+
+shopee.co.id/product/104455779/43418408781
+
+Ambil:
+- shopid
+- itemid
+
+==================================================
+TAHAP 7 - DATABASE
+==================================================
+
+products.json
+
+Simpan:
+
+judul
+shopid
+itemid
+url
+gambar
+tanggal
+
+==================================================
+TAHAP 8 - GENERATOR SEO
+==================================================
+
+Dari satu produk:
+
+Metta Outer Organza
+
+Buat:
+
+/p/metta-outer-organza.html
+
+Isi:
+- Judul SEO
+- Deskripsi
+- FAQ
+- Link affiliate
+
+==================================================
+TAHAP 9 - HALAMAN WAJIB
+==================================================
+
+/
+/about
+/contact
+/privacy-policy
+/disclaimer
+/affiliate-disclosure
+
+==================================================
+TAHAP 10 - KATEGORI OTOMATIS
+==================================================
+
+/kategori/outer
+/kategori/dress
+/kategori/tunik
+
+==================================================
+TAHAP 11 - TAG OTOMATIS
+==================================================
+
+/tag/muslimah
+/tag/kondangan
+/tag/formal
+
+==================================================
+TAHAP 12 - SITEMAP
+==================================================
+
+sitemap.xml
+
+Update setiap deploy
+
+==================================================
+TAHAP 13 - GITHUB ACTION
+==================================================
+
+Jadwal:
+
+Setiap 2 jam
+
+Workflow:
+
+GitHub Action
+↓
+Crawler
+↓
+Generate HTML
+↓
+Commit
+↓
+Push
+↓
+Cloudflare Deploy
+
+==================================================
+TAHAP 14 - FILE update.yml
+==================================================
+
+on:
+  schedule:
+    - cron: '0 */2 * * *'
+
+Artinya:
+Setiap 2 jam
+
+==================================================
+TAHAP 15 - AUTO DEPLOY
+==================================================
+
+Cloudflare otomatis membaca perubahan GitHub.
+
+Tidak perlu:
+- VPS
+- Hosting berbayar
+- PC menyala
+
+==================================================
+TAHAP 16 - ALUR FINAL
+==================================================
+
+COLLSHP
+↓
+GitHub Action
+↓
+Crawler
+↓
+Shopee Product
+↓
+Database
+↓
+Generate SEO Pages
+↓
+Commit
+↓
+Cloudflare Pages
+↓
+Website Update Otomatis
+
+==================================================
+TAHAP 17 - PENGEMBANGAN LANJUTAN
+==================================================
+
+Tambahkan:
+
+- AI Review Produk
+- AI FAQ Generator
+- Trend Mingguan
+- Trend Bulanan
+- RSS Feed
+- Telegram Auto Post
+- Google Indexing API
+
+SELESAI

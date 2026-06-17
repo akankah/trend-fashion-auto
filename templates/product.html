@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - {{ site_name }}</title>
+    <meta name="description" content="{{ description }}">
+    <link rel="canonical" href="{{ site_url }}/p/{{ slug }}.html">
+    <meta property="og:title" content="{{ title }}">
+    <meta property="og:description" content="{{ description }}">
+    <meta property="og:url" content="{{ site_url }}/p/{{ slug }}.html">
+</head>
+<body>
+    <nav><a href="/">Home</a> / <a href="/kategori/{{ category_slug }}.html">{{ category }}</a> / {{ title }}</nav>
+    <article>
+        <h1>{{ title }}</h1>
+        {% if image %}<img src="{{ image }}" alt="{{ title }}" loading="lazy">{% endif %}
+        <p>{{ description }}</p>
+        <a href="{{ affiliate_url }}" rel="nofollow sponsored" target="_blank">Lihat Produk di Shopee</a>
+        <section>
+            <h2>FAQ</h2>
+            {% for faq in faqs %}
+            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <h3 itemprop="name">{{ faq.q }}</h3>
+                <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text">{{ faq.a }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </section>
+    </article>
+</body>
+</html>
