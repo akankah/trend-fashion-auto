@@ -29,11 +29,7 @@ img{max-width:100%;height:auto;border-radius:6px}
   overflow-x: auto;
   overflow-y: hidden;
   width: 100%;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
   touch-action: pan-x;
-  padding: 0 16px;
-  gap: 6px;
 }
 
 .products.hl-scroll .product-card {
@@ -49,15 +45,7 @@ img{max-width:100%;height:auto;border-radius:6px}
   border-radius: 8px;
 }
 
-.products.hl-scroll img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
 
-.products.hl-scroll::-webkit-scrollbar {
-  display: none;
-}
 .product-card{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.06);transition:all .25s;position:relative}
 .product-card:hover{transform:translateY(-4px);box-shadow:0 6px 20px rgba(0,0,0,0.1)}
 .product-card .img-wrap{position:relative;overflow:hidden;background:#fafafa}
