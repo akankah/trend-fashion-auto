@@ -57,6 +57,7 @@ footer .container{padding:0 16px}
 footer p{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px 8px}
 footer .copyright{display:inline}
 footer .sep{display:inline;color:#555}
+footer .f1,.footer .f2{display:inline}
 footer a{color:#ccc}
 footer a:hover{color:#ee4d2d}
 
@@ -95,6 +96,10 @@ footer a:hover{color:#ee4d2d}
   footer p{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:2px 6px}
   footer .copyright{width:100%;text-align:center;margin-bottom:4px}
   footer .sep{display:none}
+  footer .f1{width:100%;text-align:center;margin-bottom:2px}
+  footer .f1 .sep{display:inline}
+  footer .f2{width:100%;text-align:center}
+  footer .f2 .sep{display:inline}
   .product-detail .detail-info{padding:14px 16px}
   .product-detail h1{font-size:1.1rem}
   .product-detail .price-large{font-size:1.3rem}

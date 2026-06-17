@@ -11,6 +11,11 @@
     <meta property="og:type" content="website">
     <meta name="robots" content="index, follow">
     <link rel="stylesheet" href="/style.css">
+    <style>
+        .product-card.hidden-p{display:none}
+        .product-card.visible{display:block}
+        #scroll-sentinel{height:1px;width:100%;visibility:hidden}
+    </style>
 </head>
 <body>
     <header>
@@ -29,9 +34,9 @@
         <section class="section-produk">
             <h2>Produk Terbaru</h2>
             {% if products %}
-            <div class="products">
+            <div class="products" id="product-grid">
                 {% for product in products %}
-                <a href="/p/{{ product.slug }}.html" class="product-card">
+                <a href="/p/{{ product.slug }}.html" class="product-card{% if loop.index0 >= 24 %} hidden-p{% else %} visible{% endif %}">
                     <div class="img-wrap">
                         {% if product.image %}<img src="{{ product.image }}" alt="{{ product.title }}" loading="lazy">{% endif %}
                     </div>
@@ -61,8 +66,12 @@
     </div>
     <footer>
         <div class="container">
-            <p><span class="copyright">&copy; {{ site_name }}</span> <span class="sep">|</span> <a href="/artikel.html">Artikel</a> <span class="sep">|</span> <a href="/about.html">Tentang</a> <span class="sep">|</span> <a href="/faq.html">FAQ</a> <span class="sep">|</span> <a href="/contact.html">Kontak</a> <span class="sep">|</span> <a href="/privacy-policy.html">Privasi</a> <span class="sep">|</span> <a href="/disclaimer.html">Disclaimer</a> <span class="sep">|</span> <a href="/affiliate-disclosure.html">Afiliasi</a></p>
+            <p><span class="f1"><span class="copyright">&copy; {{ site_name }}</span> <span class="sep">|</span> <a href="/artikel.html">Artikel</a></span> <span class="f2"><a href="/about.html">Tentang</a> <span class="sep">|</span> <a href="/faq.html">FAQ</a> <span class="sep">|</span> <a href="/contact.html">Kontak</a> <span class="sep">|</span> <a href="/privacy-policy.html">Privasi</a> <span class="sep">|</span> <a href="/disclaimer.html">Disclaimer</a> <span class="sep">|</span> <a href="/affiliate-disclosure.html">Afiliasi</a></span></p>
         </div>
     </footer>
+<div id="scroll-sentinel"></div>
+<script>
+(function(){var p=document.getElementById('product-grid');if(!p)return;var cards=p.querySelectorAll('.product-card.hidden-p');var total=cards.length;var idx=0;var batch=24;var sentinel=document.getElementById('scroll-sentinel');if(!sentinel)return;var obs=new IntersectionObserver(function(entries){if(entries[0].isIntersecting){var end=Math.min(idx+batch,total);for(var i=idx;i<end;i++){cards[i].classList.remove('hidden-p');cards[i].classList.add('visible')}idx=end;if(idx>=total){obs.disconnect()}}},{rootMargin:'200px'});obs.observe(sentinel)})();
+</script>
 </body>
 </html>
