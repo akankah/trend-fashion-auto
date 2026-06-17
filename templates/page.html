@@ -6,12 +6,26 @@
     <title>{{ title }} - {{ site_name }}</title>
     <meta name="description" content="{{ description }}">
     <link rel="canonical" href="{{ site_url }}/{{ slug }}.html">
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <nav><a href="/">Home</a> / {{ title }}</nav>
-    <article>
-        <h1>{{ title }}</h1>
-        {{ content }}
-    </article>
+    <header>
+        <div class="container">
+            <h1><a href="/">{{ site_name }}</a></h1>
+        </div>
+    </header>
+    <div class="container">
+        <nav><a href="/">Beranda</a> / {{ title }}</nav>
+        <div class="page-content">
+            <h1>{{ title }}</h1>
+            {{ content }}
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+            <p>&copy; {{ site_name }} | <a href="/about.html">Tentang</a> | <a href="/contact.html">Kontak</a> | <a href="/privacy-policy.html">Privasi</a></p>
+        </div>
+    </footer>
 </body>
 </html>

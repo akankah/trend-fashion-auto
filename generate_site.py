@@ -9,7 +9,7 @@ DATA_FILE = "data/products.json"
 OUTPUT_DIR = "generated"
 TEMPLATE_DIR = "templates"
 SITE_NAME = os.getenv("SITE_NAME", "Trend Fashion Auto")
-SITE_URL = os.getenv("SITE_URL", "https://domainkamu.com")
+SITE_URL = os.getenv("SITE_URL", "https://trend-fashion-auto.pages.dev")
 
 CATEGORIES = [
     {"name": "Outer", "slug": "outer", "keywords": ["outer", "jaket", "cardigan", "blazer"]},
@@ -184,6 +184,10 @@ def main():
     os.makedirs(OUTPUT_DIR)
     os.makedirs(f"{OUTPUT_DIR}/p")
     os.makedirs(f"{OUTPUT_DIR}/kategori")
+    if os.path.exists("static"):
+        shutil.copytree("static", f"{OUTPUT_DIR}/static", dirs_exist_ok=True)
+        for f in os.listdir("static"):
+            shutil.copy2(os.path.join("static", f), os.path.join(OUTPUT_DIR, f))
 
     env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
 

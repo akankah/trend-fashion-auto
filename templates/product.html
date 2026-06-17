@@ -9,25 +9,42 @@
     <meta property="og:title" content="{{ title }}">
     <meta property="og:description" content="{{ description }}">
     <meta property="og:url" content="{{ site_url }}/p/{{ slug }}.html">
+    <meta property="og:type" content="product">
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <nav><a href="/">Home</a> / <a href="/kategori/{{ category_slug }}.html">{{ category }}</a> / {{ title }}</nav>
-    <article>
-        <h1>{{ title }}</h1>
-        {% if image %}<img src="{{ image }}" alt="{{ title }}" loading="lazy">{% endif %}
-        <p>{{ description }}</p>
-        <a href="{{ affiliate_url }}" rel="nofollow sponsored" target="_blank">Lihat Produk di Shopee</a>
-        <section>
-            <h2>FAQ</h2>
-            {% for faq in faqs %}
-            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                <h3 itemprop="name">{{ faq.q }}</h3>
-                <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                    <p itemprop="text">{{ faq.a }}</p>
+    <header>
+        <div class="container">
+            <h1><a href="/">{{ site_name }}</a></h1>
+        </div>
+    </header>
+    <div class="container">
+        <nav><a href="/">Beranda</a> / <a href="/kategori/{{ category_slug }}.html">{{ category }}</a> / {{ title }}</nav>
+        <article>
+            <h1>{{ title }}</h1>
+            {% if image %}
+            <img src="{{ image }}" alt="{{ title }}" loading="lazy">
+            {% endif %}
+            <p>{{ description }}</p>
+            <a href="{{ affiliate_url }}" class="btn" rel="nofollow sponsored" target="_blank">Lihat Produk di Shopee</a>
+            <section class="faq">
+                <h2>Pertanyaan Umum (FAQ)</h2>
+                {% for faq in faqs %}
+                <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                    <h3 itemprop="name">{{ faq.q }}</h3>
+                    <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                        <p itemprop="text">{{ faq.a }}</p>
+                    </div>
                 </div>
-            </div>
-            {% endfor %}
-        </section>
-    </article>
+                {% endfor %}
+            </section>
+        </article>
+    </div>
+    <footer>
+        <div class="container">
+            <p>&copy; {{ site_name }} | <a href="/about.html">Tentang</a> | <a href="/contact.html">Kontak</a> | <a href="/privacy-policy.html">Privasi</a> | <a href="/disclaimer.html">Disclaimer</a></p>
+        </div>
+    </footer>
 </body>
 </html>
