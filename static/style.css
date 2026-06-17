@@ -33,6 +33,7 @@ img{max-width:100%;height:auto;border-radius:6px}
   height: auto;
   gap: 6px;
   padding: 0 16px;
+  min-width: max-content;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x;
   overscroll-behavior: contain;
@@ -45,9 +46,7 @@ img{max-width:100%;height:auto;border-radius:6px}
   touch-action: pan-x;
 }
 
-.products.hl-scroll .product-card a,
-.products.hl-scroll .img-wrap,
-.products.hl-scroll img {
+.products.hl-scroll * {
   touch-action: pan-x;
 }
 
