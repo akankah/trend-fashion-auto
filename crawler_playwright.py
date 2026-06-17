@@ -110,28 +110,33 @@ async def run():
     all_links, total = get_all_links(url_suffix)
     print(f"[Crawler] Total raw links: {len(all_links)}")
 
-    existing = load_products()
-    existing_shortlinks = {p["shortlink"] for p in existing}
-    existing_ids = {(p["shopid"], p["itemid"]) for p in existing}
-
-    # Only resolve shortlinks not already in our data
-    to_resolve = []
-    new_entries = []
+    current_shortlinks = set()
+    link_map = {}
     for l in all_links:
         sl = l.get("link", "").strip()
         if "s.shopee.co.id" not in sl:
             continue
-        if sl in existing_shortlinks:
-            continue
-        to_resolve.append(sl)
-        new_entries.append(l)
+        current_shortlinks.add(sl)
+        link_map[sl] = l
 
-    print(f"[Crawler] Already have: {len(existing)}, new to resolve: {len(to_resolve)}")
+    existing = load_products()
+    existing_ids = {(p["shopid"], p["itemid"]) for p in existing}
+
+    # Filter existing: remove products no longer on Collshp
+    valid_existing = [p for p in existing if p.get("shortlink") in current_shortlinks]
+    removed = len(existing) - len(valid_existing)
+    if removed:
+        print(f"[Crawler] Removed {removed} products no longer in Collshp")
+
+    # Resolve new shortlinks
+    existing_shortlinks = {p["shortlink"] for p in valid_existing}
+    to_resolve = [sl for sl in current_shortlinks if sl not in existing_shortlinks]
+
+    print(f"[Crawler] Already have: {len(valid_existing)}, new to resolve: {len(to_resolve)}")
 
     if to_resolve:
         resolved_map = await resolve_shortlinks(to_resolve)
-        for l in new_entries:
-            sl = l.get("link", "").strip()
+        for sl in to_resolve:
             url = resolved_map.get(sl)
             if not url:
                 continue
@@ -140,6 +145,7 @@ async def run():
                 continue
             if (ids["shopid"], ids["itemid"]) in existing_ids:
                 continue
+            l = link_map[sl]
             img = l.get("image", "")
             if img and "down-" in img:
                 img = img.replace("down-aka-id", "mms").replace("down-id", "mms")
@@ -152,14 +158,14 @@ async def run():
                 "image": img,
                 "date_added": datetime.now().isoformat(),
             }
-            existing.append(product)
+            valid_existing.append(product)
             existing_ids.add((ids["shopid"], ids["itemid"]))
         print(f"[Crawler] Newly resolved: {len(resolved_map)}")
     else:
         print("[Crawler] Nothing new to resolve")
 
-    save_products(existing)
-    print(f"[Crawler] Total products saved: {len(existing)}")
+    save_products(valid_existing)
+    print(f"[Crawler] Total products saved: {len(valid_existing)}")
 
 def main():
     print("=" * 40)
