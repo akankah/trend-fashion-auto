@@ -33,11 +33,13 @@ img{max-width:100%;height:auto;border-radius:6px}
   -ms-overflow-style: none; /* IE/Edge */
   touch-action: pan-x; /* Enable horizontal scroll on touch devices */
   min-width: max-content;
+  padding: 0 16px;
+  gap: 6px;
 }
 
 .products.hl-scroll .product-card {
   flex-shrink: 0;
-  margin-right: 8px;
+  margin: 0;
 }
 
 .products.hl-scroll::-webkit-scrollbar {
