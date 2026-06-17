@@ -447,6 +447,7 @@ def main():
     removed = before - len(products)
     if removed:
         print(f"[Generator] Filtered out {removed} non-womens products")
+    products.sort(key=lambda p: p.get("date_added", ""), reverse=True)
 
     if os.path.exists(OUTPUT_DIR):
         shutil.rmtree(OUTPUT_DIR)
