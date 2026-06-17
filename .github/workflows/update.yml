@@ -22,10 +22,12 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
+          python -m playwright install chromium
 
       - name: Run crawler
-        run: python crawler.py
+        run: python crawler_playwright.py
 
       - name: Generate site
         run: python generate_site.py
