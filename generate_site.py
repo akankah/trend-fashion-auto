@@ -73,6 +73,9 @@ STATIC_PAGES = {
 <h3>Bagaimana Kami Bekerja?</h3>
 <p>Kami menggunakan teknologi otomatis untuk mengumpulkan produk fashion dari berbagai toko terpercaya di Shopee. Sistem kami berjalan setiap 2 jam untuk memastikan data produk selalu terbaru. Produk yang tidak lagi tersedia otomatis dihapus dari daftar rekomendasi.</p>
 
+<h3>Ikuti Kami</h3>
+<p>Dapatkan update fashion terbaru dengan mengikuti halaman Facebook kami: <a href="https://www.facebook.com/share/1D5iiyWBr4/" target="_blank" rel="noopener">Trend Fashion Auto di Facebook</a>.</p>
+
 <h3>Hubungi Kami</h3>
 <p>Punya saran atau pertanyaan? Silakan hubungi kami via email: <a href=\"mailto:120n1333@gmail.com\">120n1333@gmail.com</a>. Kami senang mendengar dari Anda!</p>
 """},
