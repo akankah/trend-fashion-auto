@@ -36,6 +36,30 @@ def resolve_shortlink(short_url):
         print(f"  Redirect failed: {e}")
         return None
 
+def find_image_for_link(soup, link_element):
+    img = link_element.find("img")
+    if img and img.get("src"):
+        return img["src"]
+    parent = link_element.parent
+    if parent:
+        img = parent.find("img")
+        if img and img.get("src"):
+            return img["src"]
+    for sibling in link_element.find_previous_siblings():
+        img = sibling.find("img")
+        if img and img.get("src"):
+            return img["src"]
+    for sibling in link_element.find_next_siblings():
+        img = sibling.find("img")
+        if img and img.get("src"):
+            return img["src"]
+    container = link_element.find_parent(["div", "li", "article", "section"])
+    if container:
+        img = container.find("img")
+        if img and img.get("src"):
+            return img["src"]
+    return ""
+
 def crawl_source():
     print(f"[Crawler] Fetching {SOURCE_URL}")
     try:
@@ -48,17 +72,21 @@ def crawl_source():
 
     soup = BeautifulSoup(resp.text, "html.parser")
     all_links = soup.find_all("a", href=True)
-    shopee_shortlinks = set()
+    seen = set()
+    products = []
 
     for a in all_links:
         href = a["href"]
-        if "s.shopee.co.id" in href or "s.shopee.id" in href:
-            shopee_shortlinks.add(href.strip())
+        if "s.shopee.co.id" not in href and "s.shopee.id" not in href:
+            continue
+        shortlink = href.strip()
+        if shortlink in seen:
+            continue
+        seen.add(shortlink)
 
-    print(f"[Crawler] Found {len(shopee_shortlinks)} Shopee shortlinks")
+        title = a.get_text(strip=True) or ""
+        image = find_image_for_link(soup, a)
 
-    products = []
-    for shortlink in shopee_shortlinks:
         print(f"  Resolving: {shortlink}")
         resolved = resolve_shortlink(shortlink)
         if not resolved:
@@ -72,12 +100,13 @@ def crawl_source():
             "itemid": ids["itemid"],
             "url": resolved,
             "shortlink": shortlink,
-            "title": "",
-            "image": "",
+            "title": title,
+            "image": image,
             "date_added": datetime.now().isoformat(),
         })
         time.sleep(0.5)
 
+    print(f"[Crawler] Found {len(products)} products with images")
     return products
 
 def merge_products(existing, new):

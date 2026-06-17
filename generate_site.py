@@ -10,6 +10,7 @@ OUTPUT_DIR = "generated"
 TEMPLATE_DIR = "templates"
 SITE_NAME = os.getenv("SITE_NAME", "Trend Fashion Auto")
 SITE_URL = os.getenv("SITE_URL", "https://trend-fashion-auto.pages.dev")
+PLACEHOLDER_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' fill='%23f0f0f0'%3E%3Crect width='400' height='400'/%3E%3Ctext x='200' y='200' text-anchor='middle' fill='%23999' font-size='16'%3EProduct%3C/text%3E%3C/svg%3E"
 
 CATEGORIES = [
     {"name": "Outer", "slug": "outer", "keywords": ["outer", "jaket", "cardigan", "blazer"]},
@@ -77,7 +78,7 @@ def generate_product_page(env, product):
         site_name=SITE_NAME,
         site_url=SITE_URL,
         description=description,
-        image=product.get("image", ""),
+        image=product.get("image") or PLACEHOLDER_IMAGE,
         category=cat["name"],
         category_slug=cat["slug"],
         affiliate_url=affiliate_url,
@@ -96,7 +97,7 @@ def generate_index(env, products):
             product_list.append({
                 "title": title,
                 "slug": slug,
-                "image": p.get("image", ""),
+                "image": p.get("image") or PLACEHOLDER_IMAGE,
             })
     product_list = product_list[:50]
 
@@ -120,7 +121,7 @@ def generate_category_pages(env, products):
                 cat_products.append({
                     "title": title,
                     "slug": slug_p,
-                    "image": p.get("image", ""),
+                    "image": p.get("image") or PLACEHOLDER_IMAGE,
                 })
         template = env.get_template("category.html")
         html = template.render(
