@@ -47,6 +47,18 @@
             <p>Belum ada produk. Silakan kembali lagi nanti.</p>
             {% endif %}
         </section>
+        <section class="section-artikel">
+            <h2>Artikel Fashion</h2>
+            <div class="article-list">
+                {% for art in articles %}
+                <a href="/artikel/{{ art.slug }}.html" class="article-card">
+                    <h3>{{ art.title }}</h3>
+                    <p>{{ art.intro[:120] }}...</p>
+                    <span class="article-readmore">Baca Selengkapnya &rarr;</span>
+                </a>
+                {% endfor %}
+            </div>
+        </section>
         <section class="section-kategori">
             <h2>Kategori</h2>
             <div class="category-list">

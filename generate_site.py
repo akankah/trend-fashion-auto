@@ -88,6 +88,104 @@ DESCRIPTION_TEMPLATES = [
     "{t} — {mat}, {style}. {s}. Wajib punya untuk {c} yang ingin tampil trendy.",
 ]
 
+REVIEW_TEMPLATES = [
+    "Saya baru saja membeli {t} minggu lalu dan sangat puas! Bahannya {mat} banget, pas dipakai {style}. Ukurannya pas, {s}. Pengiriman cepat sampai 2 hari. Recomended banget buat {c}!",
+    "Awalnya ragu, tapi setelah {t} sampai, ternyata kualitasnya bagus. {mat}, jahitan rapi, dan {style}. {s}. Barang sesuai foto. Buat {c} wajib beli!",
+    "Udah order {t} buat acara {style} dan hasilnya stunning! Bahannya {mat}, gak panas. {s}. Delivery cepet, packing aman. Makasih!",
+    "Beli {t} karena butuh buat {style}. Ternyata lebih bagus dari ekspektasi! {mat}, {s}. {c} pasti suka. Bakal repeat order!",
+    "Lumayan sering beli fashion online, tapi {t} ini jadi favorit. {mat}, {style}. {s}. Ukuran sesuai size chart, gak mengecewakan.",
+    "Pertama kali beli {t} dan puas banget! {mat}, modelnya {style}. {s}. Recommended seller, fast respon. {c} puas!",
+    "Cari-cari {t} buat {style}, nemu ini. Bahannya {mat}, {s}. Harga sesuai kualitas. Udah dipakai 3x, masih oke. {c} wajib punya!",
+]
+
+def generate_reviews(title, mat, style, size, cocok):
+    h = sum(ord(c) for c in title)
+    n = h % len(REVIEW_TEMPLATES)
+    n2 = (h + 5) % len(REVIEW_TEMPLATES)
+    t_list = [REVIEW_TEMPLATES[n], REVIEW_TEMPLATES[n2]]
+    t_list = list(dict.fromkeys(t_list))
+    return [t.format(t=title, mat=mat, style=style, s=size, c=cocok) for t in t_list]
+
+ARTICLES_DATA = [
+    {
+        "slug": "tips-memilih-gamis-untuk-kondangan",
+        "title": "5 Tips Memilih Gamis untuk Kondangan Agar Tampil Memukau",
+        "category": "Dress",
+        "intro": "Menghadiri acara kondangan atau resepsi pernikahan pasti ingin tampil sempurna. Salah satu pilihan busana yang paling populer adalah gamis atau dress muslimah. Namun, memilih gamis yang tepat tidak boleh asal-asalan. Simak tips berikut agar penampilanmu memukau!",
+        "sections": [
+            {"h": "1. Pilih Bahan yang Nyaman", "p": "Kondangan biasanya berlangsung berjam-jam, jadi pilih gamis dengan bahan adem dan menyerap keringat seperti katun, rayon, atau sifon. Bahan yang nyaman akan membuatmu tetap percaya diri sepanjang acara."},
+            {"h": "2. Sesuaikan dengan Dress Code", "p": "Beberapa undangan mencantumkan dress code tertentu, misalnya warna pastel, earth tone, atau warna gelap. Pastikan gamis yang kamu pilih sesuai dengan tema acara agar tidak salah kostum."},
+            {"h": "3. Perhatikan Ukuran dan Potongan", "p": "Pilih gamis dengan ukuran yang pas di badan. Jangan terlalu longgar atau terlalu ketat. Gamis dengan potongan A-line atau empire waist biasanya cocok untuk berbagai bentuk tubuh."},
+            {"h": "4. Detail yang Membedakan", "p": "Gamis dengan detail payet, bordir, atau aplikasi renda memberikan kesan lebih mewah dan elegan. Namun jangan berlebihan, pilih satu detail fokus agar tetap terlihat anggun."},
+            {"h": "5. Padukan dengan Hijab yang Tepat", "p": "Warna hijab yang senada atau kontras dengan gamis bisa menyempurnakan look. Hijab berbahan ceruty atau pashmina cocok untuk acara formal seperti kondangan."},
+        ],
+        "outro": "Dengan mengikuti tips di atas, kamu bisa tampil memukau di setiap acara kondangan. Yuk cek koleksi gamis dan dress kondangan terbaru di bawah ini!",
+    },
+    {
+        "slug": "tips-padu-padan-outer-agar-tampil-elegan",
+        "title": "Cara Padu Padan Outer Wanita untuk Tampil Elegan Setiap Hari",
+        "category": "Outer",
+        "intro": "Outer adalah salah satu item fashion yang bisa mengubah total penampilanmu. Baik itu blazer, cardigan, jaket, atau vest — outer yang tepat bisa membuat look sederhana jadi lebih berkelas. Berikut panduan lengkapnya!",
+        "sections": [
+            {"h": "1. Outer + Atasan Polos = Look Kasual Elegan", "p": "Padukan outer dengan atasan polos berwarna netral seperti putih, hitam, atau krem. Kombinasi ini sangat fleksibel dan cocok untuk berbagai acara dari santai hingga semi formal."},
+            {"h": "2. Blazer untuk Tampil Profesional", "p": "Blazer adalah outer wajib untuk tampilan ke kantor atau meeting. Pilih blazer dengan potongan yang rapi dan bahan yang tidak mudah kusut. Padukan dengan kemeja atau blouse."},
+            {"h": "3. Cardigan untuk Daily Wear", "p": "Cardigan sangat cocok untuk kegiatan sehari-hari. Pilih cardigan rajut dengan warna pastel untuk kesan lembut, atau warna gelap untuk look yang lebih maskulin."},
+            {"h": "4. Layering dengan Vest", "p": "Vest atau rompi bisa menjadi alternatif outer yang unik. Cocok dipakai di atas kemeja lengan panjang untuk tampilan yang stylish dan berbeda dari biasanya."},
+            {"h": "5. Jaket Denim untuk Street Style", "p": "Jaket denim adalah outer klasik yang tidak pernah ketinggalan zaman. Padukan dengan dress atau rok untuk mix feminin dan kasual yang keren."},
+        ],
+        "outro": "Apapun gaya yang kamu pilih, outer yang tepat bisa membuat penampilanmu makin menarik. Koleksi outer terbaru tersedia di bawah ini!",
+    },
+    {
+        "slug": "panduan-memilih-hijab-sesuai-bentuk-wajah",
+        "title": "Panduan Memilih Hijab yang Cocok dengan Bentuk Wajah",
+        "category": "Hijab",
+        "intro": "Setiap orang memiliki bentuk wajah yang berbeda, dan hijab yang tepat bisa menyempurnakan penampilan. Berikut panduan memilih hijab sesuai dengan bentuk wajahmu agar tampil semakin percaya diri.",
+        "sections": [
+            {"h": "1. Wajah Bulat", "p": "Jika wajahmu bulat, pilih hijab dengan potongan yang memanjangkan wajah seperti hijab segi empat yang dililit longgar di sisi rahang. Hindari hijab terlalu tebal di bagian samping."},
+            {"h": "2. Wajah Oval", "p": "Wajah oval cenderung proporsional, jadi hampir semua model hijab cocok. Kamu bisa bereksperimen dengan pashmina, segi empat, atau khimar. Tapi hindari hijab yang menutupi dahi terlalu rendah."},
+            {"h": "3. Wajah Persegi", "p": "Untuk wajah persegi dengan rahang tegas, pilih hijab yang melunakkan garis rahang seperti hijab berlayer atau pashmina yang dibiarkan panjang di samping."},
+            {"h": "4. Wajah Hat", "p": "Wajah heart (hat) dengan dahi lebar dan dagu runcing, seimbangkan dengan hijab yang penuh di bagian bawah. Pashmina yang dililit longgar di leher sangat cocok."},
+            {"h": "5. Wajah Panjang", "p": "Jika wajahmu panjang, hindari hijab yang menambah kesan vertikal. Pilih hijab segi empat yang dililit penuh di leher untuk memberi kesan lebar dan seimbang."},
+        ],
+        "outro": "Dengan hijab yang sesuai bentuk wajah, penampilanmu akan makin maksimal. Koleksi hijab terbaru bisa kamu lihat di bawah ini!",
+    },
+    {
+        "slug": "rekomendasi-blouse-untuk-kerja-kantor",
+        "title": "Rekomendasi Blouse Wanita untuk Tampil Stylish di Kantor",
+        "category": "Atasan",
+        "intro": "Blouse adalah item fashion yang wajib ada di lemari setiap wanita pekerja. Dengan model yang tepat, blouse bisa membuatmu terlihat profesional sekaligus fashionable. Berikut tips memilih blouse untuk ke kantor.",
+        "sections": [
+            {"h": "1. Blouse Bahan Rayon untuk Cuaca Panas", "p": "Rayon adalah bahan yang ringan, adem, dan jatuh indah di badan. Cocok untuk kamu yang bekerja di kota dengan cuaca panas. Pilih warna solid seperti putih, biru navy, atau abu-abu."},
+            {"h": "2. Blouse Katun untuk Tampilan Rapi", "p": "Blouse katun memberikan kesan rapi dan profesional. Pilih katun dengan sedikit campuran spandeks agar tidak mudah kusut saat dipakai seharian di kantor."},
+            {"h": "3. Blouse Motif untuk Look Lebih Hidup", "p": "Jika kamu bosan dengan blouse polos, coba blouse motif bunga kecil atau garis-garis. Motif yang tidak terlalu ramai tetap terlihat profesional dan memberi kesan fresh."},
+            {"h": "4. Blouse Big Size untuk Semua Bentuk Badan", "p": "Banyak brand sekarang menyediakan blouse dengan ukuran plus size atau big size hingga 4XL dan LD 140. Jangan khawatir, wanita dengan body goals apapun bisa tampil stylish."},
+            {"h": "5. Mix and Match Blouse dengan Rok atau Celana", "p": "Blouse bisa dipadukan dengan rok span atau rok A-line untuk tampilan feminin, atau dengan celana kulot untuk tampilan modern. Pilih bawahan dengan warna netral."},
+        ],
+        "outro": "Dengan blouse yang tepat, hari-harimu di kantor akan lebih percaya diri. Yuk lihat rekomendasi blouse terbaru di koleksi kami!",
+    },
+    {
+        "slug": "tips-memilih-bawahan-wanita-untuk-berbagai-acara",
+        "title": "Tips Memilih Bawahan Wanita: Dari Kulot, Rok, hingga Celana Jeans",
+        "category": "Bawahan",
+        "intro": "Bawahan adalah fondasi dari setiap outfit. Memilih bawahan yang tepat bisa membuat penampilanmu terlihat lebih proporsional dan stylish. Simak tips memilih bawahan untuk berbagai acara!",
+        "sections": [
+            {"h": "1. Celana Kulot untuk Tampil Kasual Elegan", "p": "Celana kulot dengan potongan lebar cocok untuk tampilan kasual yang tetap elegan. Pilih kulot dengan bahan flowing seperti rayon atau linen agar nyaman dipakai seharian."},
+            {"h": "2. Rok Span untuk Acara Formal", "p": "Rok span atau rok pensil adalah pilihan tepat untuk acara formal, kondangan, atau ke kantor. Pilih ukuran yang pas di pinggang agar siluet tetap rapi."},
+            {"h": "3. Rok A-Line untuk Semua Bentuk Tubuh", "p": "Rok A-line melebar di bagian bawah dan cocok untuk semua bentuk tubuh. Model ini sangat feminin dan nyaman dipakai untuk berbagai kesempatan."},
+            {"h": "4. Celana Jeans untuk Daily Wear", "p": "Celana jeans adalah bawahan paling serbaguna. Pilih model straight leg atau bootcut untuk tampilan klasik, atau model mom jeans untuk kesan vintage."},
+            {"h": "5. Legging untuk Santai di Rumah", "p": "Legging dengan bahan yang tebal dan tidak menerawang cocok untuk bersantai di rumah atau olahraga ringan. Pilih warna gelap agar lebih mudah dipadukan."},
+        ],
+        "outro": "Apapun acaranya, bawahan yang tepat adalah kunci penampilan yang sempurna. Cek koleksi rok, celana, dan legging terbaru!",
+    },
+]
+
+def generate_reviews(title, mat, style, size, cocok):
+    h = sum(ord(c) for c in title)
+    n = h % len(REVIEW_TEMPLATES)
+    n2 = (h + 5) % len(REVIEW_TEMPLATES)
+    texts = [REVIEW_TEMPLATES[n], REVIEW_TEMPLATES[n2]]
+    return [t.format(t=title, mat=mat, style=style, s=size, c=cocok) for t in set(texts)]
+
 def generate_faqs(title, category_name, mat, style, size, cocok):
     h = sum(ord(c) for c in title)
     faqs = [
@@ -110,6 +208,7 @@ def generate_product_page(env, product):
 
     template = env.get_template("product.html")
     rating, reviews = product_rating(title)
+    user_reviews = generate_reviews(title, mat, style, size, cocok)
     html = template.render(
         title=title,
         slug=slug,
@@ -123,6 +222,7 @@ def generate_product_page(env, product):
         price=(sum(ord(c) for c in title) % 100) * 1500 + 35000,
         rating=rating,
         reviews=reviews,
+        user_reviews=user_reviews,
         faqs=generate_faqs(title, cat["name"], mat, style, size, cocok),
     )
     return slug, html, cat["slug"]
@@ -158,6 +258,21 @@ def generate_index(env, products):
         site_url=SITE_URL,
         categories=CATEGORIES,
         products=product_list,
+        articles=ARTICLES_DATA,
+    )
+    return html
+
+def generate_article_page(env, article):
+    template = env.get_template("article.html")
+    html = template.render(
+        title=article["title"],
+        slug=article["slug"],
+        site_name=SITE_NAME,
+        site_url=SITE_URL,
+        intro=article["intro"],
+        sections=article["sections"],
+        outro=article["outro"],
+        category=article["category"],
     )
     return html
 
@@ -218,6 +333,9 @@ def generate_sitemap(products):
     for cat in CATEGORIES:
         lines.append(f"  <url><loc>{SITE_URL}/kategori/{cat['slug']}.html</loc><priority>0.7</priority></url>")
 
+    for art in ARTICLES_DATA:
+        lines.append(f"  <url><loc>{SITE_URL}/artikel/{art['slug']}.html</loc><priority>0.8</priority></url>")
+
     seen_slugs = set()
     for p in products:
         title = p.get("title") or f"Produk {p['shopid']}.{p['itemid']}"
@@ -242,6 +360,7 @@ def main():
     os.makedirs(OUTPUT_DIR)
     os.makedirs(f"{OUTPUT_DIR}/p")
     os.makedirs(f"{OUTPUT_DIR}/kategori")
+    os.makedirs(f"{OUTPUT_DIR}/artikel")
     if os.path.exists("static"):
         shutil.copytree("static", f"{OUTPUT_DIR}/static", dirs_exist_ok=True)
         for f in os.listdir("static"):
@@ -269,6 +388,12 @@ def main():
         with open(f"{OUTPUT_DIR}/kategori/{slug}.html", "w", encoding="utf-8") as f:
             f.write(html)
     print(f"[Generator] Category pages generated: {len(cat_pages)}")
+
+    for art in ARTICLES_DATA:
+        html = generate_article_page(env, art)
+        with open(f"{OUTPUT_DIR}/artikel/{art['slug']}.html", "w", encoding="utf-8") as f:
+            f.write(html)
+    print(f"[Generator] Article pages generated: {len(ARTICLES_DATA)}")
 
     static_pages = generate_static_pages(env)
     for slug, html in static_pages.items():

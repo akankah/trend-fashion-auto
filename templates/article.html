@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - {{ site_name }}</title>
+    <meta name="description" content="{{ intro[:160] }}">
+    <link rel="canonical" href="{{ site_url }}/artikel/{{ slug }}.html">
+    <meta property="og:title" content="{{ title }}">
+    <meta property="og:description" content="{{ intro[:160] }}">
+    <meta property="og:type" content="article">
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">F</div>
+                <h1><a href="/">{{ site_name }}</a></h1>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <nav><a href="/">Beranda</a> / <a href="/kategori/{{ category.lower() }}.html">{{ category }}</a> / Artikel</nav>
+        <article class="article-content">
+            <h1>{{ title }}</h1>
+            <p class="article-intro">{{ intro }}</p>
+            {% for section in sections %}
+            <h3>{{ section.h }}</h3>
+            <p>{{ section.p }}</p>
+            {% endfor %}
+            <p class="article-outro">{{ outro }}</p>
+            <div class="share-buttons">
+                <span class="share-label">Share:</span>
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ site_url }}/artikel/{{ slug }}.html" target="_blank" rel="noopener" class="share-btn fb" title="Share ke Facebook">FB</a>
+                <a href="https://wa.me/?text={{ title }}%20-%20{{ site_url }}/artikel/{{ slug }}.html" target="_blank" rel="noopener" class="share-btn wa" title="Share ke WhatsApp">WA</a>
+                <a href="https://t.me/share/url?url={{ site_url }}/artikel/{{ slug }}.html&text={{ title }}" target="_blank" rel="noopener" class="share-btn tg" title="Share ke Telegram">TG</a>
+                <a href="https://social-plugins.line.me/lineit/share?url={{ site_url }}/artikel/{{ slug }}.html" target="_blank" rel="noopener" class="share-btn line" title="Share ke LINE">LINE</a>
+                <a href="mailto:?subject={{ title }}&body={{ site_url }}/artikel/{{ slug }}.html" target="_blank" rel="noopener" class="share-btn email" title="Share via Email">Email</a>
+            </div>
+        </article>
+    </div>
+    <footer>
+        <div class="container">
+            <p><span class="copyright">&copy; {{ site_name }}</span> <span class="sep">|</span> <a href="/about.html">Tentang</a> <span class="sep">|</span> <a href="/contact.html">Kontak</a> <span class="sep">|</span> <a href="/privacy-policy.html">Privasi</a> <span class="sep">|</span> <a href="/disclaimer.html">Disclaimer</a> <span class="sep">|</span> <a href="/affiliate-disclosure.html">Afiliasi</a></p>
+        </div>
+    </footer>
+</body>
+</html>
