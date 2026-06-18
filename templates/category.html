@@ -24,6 +24,7 @@
                 {% for cat in categories %}
                 <a href="/kategori/{{ cat.slug }}.html" class="cat-float-item{% if cat.name == category %} active{% endif %}">{{ cat.icon }} {{ cat.name }}</a>
                 {% endfor %}
+                <a href="https://www.facebook.com/share/1D5iiyWBr4/" target="_blank" class="cat-float-item fb-link">📘 Facebook</a>
             </div>
         </nav>
         <nav><a href="/">Beranda</a> / {{ category }}</nav>

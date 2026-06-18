@@ -198,5 +198,8 @@ footer a:hover{color:#ee4d2d}
   .article-content{padding:16px}
   .article-content h1{font-size:1.15rem}
   .share-buttons{gap:4px}
-  .share-btn{padding:4px 8px;font-size:0.65rem;min-width:32px}
-}
+  .share-btn{padding:4px 8px;font-size:0.65rem;min-width:32px}
+}
+
+.fb-link{background:#e8f0fe!important;color:#1877f2!important}
+.fb-link:hover{background:#1877f2!important;color:#fff!important;text-decoration:none}
