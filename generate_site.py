@@ -464,6 +464,9 @@ def main():
         shutil.copytree("static", f"{OUTPUT_DIR}/static", dirs_exist_ok=True)
         for f in os.listdir("static"):
             shutil.copy2(os.path.join("static", f), os.path.join(OUTPUT_DIR, f))
+    for vf in ["googlea170ee9fa4898def.html"]:
+        if os.path.exists(vf):
+            shutil.copy2(vf, os.path.join(OUTPUT_DIR, vf))
 
     env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
 
