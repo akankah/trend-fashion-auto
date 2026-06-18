@@ -1,4 +1,3 @@
-
 PANDUAN LENGKAP DARI NOL
 PROYEK: COLLSHP -> WEBSITE SEO OTOMATIS -> GITHUB -> CLOUDFLARE PAGES
 
@@ -8,11 +7,11 @@ Sumber data:
 https://collshp.com/shopeemurahkekinian?share_channel_code=2
 
 Hasil:
-- Website SEO otomatis
-- Update otomatis tanpa PC menyala
-- Hosting gratis
+- Website SEO otomatis (1036+ produk fashion wanita)
+- Update otomatis tiap 2 jam tanpa PC menyala
+- Hosting gratis Cloudflare Pages
 - GitHub Actions sebagai scheduler
-- Cloudflare Pages sebagai hosting
+- Scroll horizontal dengan arrow buttons di desktop, touch di mobile
 
 ==================================================
 TAHAP 1 - MEMBUAT AKUN GITHUB
@@ -71,7 +70,6 @@ Deploy
 TAHAP 4 - STRUKTUR REPOSITORY
 ==================================================
 
-
 trend-fashion-auto/
 
 .github/
@@ -81,192 +79,126 @@ trend-fashion-auto/
 generated/
 data/
 templates/
+static/
 
-crawler.py
+crawler_playwright.py
 generate_site.py
 requirements.txt
 .env
 
 ==================================================
-TAHAP 5 - FILE .ENV
+TAHAP 5 - CRAWLER (GraphQL API)
 ==================================================
 
-COLLSHP_SOURCE=https://collshp.com/shopeemurahkekinian?share_channel_code=2
-
-SITE_NAME=Trend Fashion Auto
-SITE_URL=https://domainkamu.com
-
-UPDATE_INTERVAL=120
-
-==================================================
-TAHAP 6 - CARA KERJA CRAWLER
-==================================================
-
-Crawler:
-1. Buka halaman Collshp
-2. Cari link s.shopee.co.id
-3. Follow redirect
-4. Dapat URL produk Shopee
-5. Simpan data
-
-Contoh:
-
-s.shopee.co.id/xxxxx
-
-menjadi
-
-shopee.co.id/product/104455779/43418408781
-
-Ambil:
-- shopid
-- itemid
+Crawler menggunakan Collshp GraphQL API:
+1. POST /api/v3/gql/graphql dengan query getLinkLists
+2. Dapat semua shortlink + metadata (totalCount ~1100+)
+3. Filter link s.shopee.co.id
+4. Playwright resolve redirect ke URL Shopee asli
+5. Ambil shopid, itemid, image
+6. Dedup by shortlink (bukan shopid/itemid)
+7. Auto-hapus produk yang tidak ada di Collshp
+8. Filter non-women products (65+ keywords)
+9. Retry 1x dengan 10s delay untuk timeout/connection error
 
 ==================================================
-TAHAP 7 - DATABASE
-==================================================
-
-products.json
-
-Simpan:
-
-judul
-shopid
-itemid
-url
-gambar
-tanggal
-
-==================================================
-TAHAP 8 - GENERATOR SEO
+TAHAP 6 - GENERATOR SEO
 ==================================================
 
 Dari satu produk:
-
-Metta Outer Organza
-
-Buat:
-
-/p/metta-outer-organza.html
-
-Isi:
 - Judul SEO
-- Deskripsi
-- FAQ
-- Link affiliate
+- Deskripsi dinamis (10 template kombinasi MATERIALS, STYLES, SIZES)
+- JSON-LD structured data
+- Share buttons
+- FAQ per produk
+
+Generator menghasilkan:
+- /index.html (infinite scroll, home-highlights horizontal scroll)
+- /p/{slug}.html (1036+ product pages)
+- /kategori/{kategori}.html (6 kategori)
+- /artikel/{slug}.html (7+ artikel auto-generated)
+- /artikel.html (daftar artikel)
+- /about.html, /contact.html, /faq.html, /privacy-policy.html, /disclaimer.html, /affiliate-disclosure.html
+- /sitemap.xml
+- /data/products_display.json (untuk infinite scroll)
 
 ==================================================
-TAHAP 9 - HALAMAN WAJIB
+TAHAP 7 - HOME-HIGHLIGHTS SCROLL
+==================================================
+
+15 produk terbaru + 15 produk terlaris (30 total) dengan:
+- Desktop: arrow buttons < > untuk scroll kiri/kanan
+- Mobile: touch scroll horizontal
+- CSS technique: outer overflow-x:auto + inner flex min-width:max-content
+- Critical fix: .hl-col{min-width:0} (CSS Grid min-width:auto fix)
+
+==================================================
+TAHAP 8 - HALAMAN WAJIB
 ==================================================
 
 /
 /about
 /contact
+/faq
 /privacy-policy
 /disclaimer
 /affiliate-disclosure
+/artikel
 
 ==================================================
-TAHAP 10 - KATEGORI OTOMATIS
+TAHAP 9 - KATEGORI OTOMATIS
 ==================================================
 
 /kategori/outer
 /kategori/dress
 /kategori/tunik
+/kategori/atasan
+/kategori/bawahan
+/kategori/hijab
 
 ==================================================
-TAHAP 11 - TAG OTOMATIS
+TAHAP 10 - GITHUB ACTION
 ==================================================
 
-/tag/muslimah
-/tag/kondangan
-/tag/formal
-
-==================================================
-TAHAP 12 - SITEMAP
-==================================================
-
-sitemap.xml
-
-Update setiap deploy
-
-==================================================
-TAHAP 13 - GITHUB ACTION
-==================================================
-
-Jadwal:
-
-Setiap 2 jam
+Jadwal: Setiap 2 jam (cron: 0 */2 * * *)
 
 Workflow:
-
-GitHub Action
-↓
-Crawler
-↓
-Generate HTML
-↓
-Commit
-↓
-Push
-↓
-Cloudflare Deploy
+1. Checkout repo
+2. Setup Python
+3. pip install
+4. Crawler (GraphQL API)
+5. Generate HTML
+6. Commit data/products.json dengan [skip ci]
+7. Deploy ke Cloudflare Pages
 
 ==================================================
-TAHAP 14 - FILE update.yml
+TAHAP 11 - TEKNOLOGI
 ==================================================
 
-on:
-  schedule:
-    - cron: '0 */2 * * *'
-
-Artinya:
-Setiap 2 jam
-
-==================================================
-TAHAP 15 - AUTO DEPLOY
-==================================================
-
-Cloudflare otomatis membaca perubahan GitHub.
-
-Tidak perlu:
-- VPS
-- Hosting berbayar
-- PC menyala
+- Crawler: Python + requests (GraphQL) + Playwright (shortlink resolve)
+- Generator: Python + Jinja2
+- Hosting: Cloudflare Pages (free)
+- CI/CD: GitHub Actions (auto update tiap 2 jam)
+- Font: system fonts (Apple, Google, Segoe UI)
 
 ==================================================
-TAHAP 16 - ALUR FINAL
+TAHAP 12 - FITUR LENGKAP
 ==================================================
 
-COLLSHP
-↓
-GitHub Action
-↓
-Crawler
-↓
-Shopee Product
-↓
-Database
-↓
-Generate SEO Pages
-↓
-Commit
-↓
-Cloudflare Pages
-↓
-Website Update Otomatis
-
-==================================================
-TAHAP 17 - PENGEMBANGAN LANJUTAN
-==================================================
-
-Tambahkan:
-
-- AI Review Produk
-- AI FAQ Generator
-- Trend Mingguan
-- Trend Bulanan
-- RSS Feed
-- Telegram Auto Post
-- Google Indexing API
+- GraphQL API crawler (bukan scraping DOM)
+- Auto-filter produk wanita (65+ keywords)
+- Auto-remove produk kadaluarsa
+- 1036+ produk fashion wanita live
+- Harga format Rp65.000 (titik, tanpa spasi)
+- Home-highlights scroll horizontal (desktop arrows, mobile touch)
+- Floating category bar (sticky, horizontal scroll)
+- Infinite scroll (IntersectionObserver, batch 24)
+- 7+ auto-generated articles
+- JSON-LD (Organization, Product, Article, FAQPage, WebPage)
+- E-E-A-T About page
+- Share buttons (FB, WA, Telegram, LINE, Email, Copy Link)
+- Halaman statis (About, Contact, FAQ, Privacy, Disclaimer, Afiliasi)
+- Mobile responsive
+- Auto-update tiap 2 jam via GitHub Actions
 
 SELESAI

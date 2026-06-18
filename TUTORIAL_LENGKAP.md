@@ -1,27 +1,32 @@
 # TUTORIAL LENGKAP: Auto SEO Website dari Collshp
 
 ## 📌 Tujuan
-Bikin website SEO otomatis dari Collshp → Crawl produk → Generate HTML → Hosting gratis Cloudflare Pages → Update tiap 2 jam via GitHub Actions.
+Bikin website SEO otomatis dari Collshp → Crawl produk via GraphQL API → Generate HTML statis → Hosting gratis Cloudflare Pages → Update tiap 2 jam via GitHub Actions.
 
 ## 📁 Struktur Final Project
 
 ```
 E:\cuanseo/                      ← folder kerja lokal
-├── .github/workflows/update.yml ← GitHub Actions (auto deploy)
+├── .github/workflows/update.yml ← GitHub Actions (auto deploy + auto-commit data)
 ├── generated/                   ← output HTML (auto-generated, di-ignore git)
 │   ├── index.html
 │   ├── sitemap.xml
-│   ├── p/                       ← halaman produk (SEO + FAQ)
-│   ├── kategori/                ← halaman kategori
+│   ├── style.css
+│   ├── p/                       ← 1036+ halaman produk
+│   ├── kategori/                ← 6 halaman kategori
+│   ├── artikel/                 ← 7+ artikel auto-generated
+│   ├── data/products_display.json
 │   ├── about.html, contact.html, privacy-policy.html, ...
 ├── data/products.json           ← database produk (hasil crawl)
 ├── templates/                   ← Jinja2 HTML templates
 │   ├── index.html
 │   ├── product.html
 │   ├── category.html
+│   ├── article.html
 │   ├── page.html
-├── crawler.py                   ← scraper Collshp → extract Shopee IDs
-├── generate_site.py             ← generator HTML SEO dari data produk
+├── static/style.css             ← stylesheet
+├── crawler_playwright.py        ← GraphQL API crawler
+├── generate_site.py             ← generator HTML SEO
 ├── wrangler.toml                ← config Cloudflare Pages deploy
 ├── .env                         ← config environment
 ├── .gitignore
@@ -49,47 +54,49 @@ UPDATE_INTERVAL=120
 ### 3. File `requirements.txt`
 ```
 requests
-beautifulsoup4
 jinja2
 ```
 
-### 4. File `.gitignore`
-```
-__pycache__/
-*.pyc
-.env
-generated/
-```
+### 4. File `crawler_playwright.py`
+Crawler via Collshp GraphQL API:
+- Request `getLinkLists` GraphQL → dapat semua shortlink + metadata
+- Filter link `s.shopee.co.id`
+- Playwright resolve redirect → URL asli Shopee
+- Extract `shopid` & `itemid` & `image`
+- Dedup by shortlink (bukan shopid/itemid — agar produk sama dengan shortlink affiliate beda tetap muncul)
+- Auto-remove produk yang tidak ada di Collshp
+- Filter non-women products (65+ keywords)
+- Retry 1x dengan 10s delay untuk timeout/connection error
 
-### 5. File `crawler.py`
-Crawler scraping Collshp:
-- Ambil halaman Collshp
-- Cari semua link `s.shopee.co.id`
-- Follow redirect → dapat URL asli Shopee
-- Extract `shopid` & `itemid`
-- Simpan ke `data/products.json` (dedup)
-
-### 6. File `generate_site.py`
-Generator SEO:
+### 5. File `generate_site.py`
+Generator SEO dengan Jinja2:
 - Baca `data/products.json`
-- Klasifikasi produk ke kategori (outer, dress, tunik, dll)
-- Generate FAQ otomatis per produk
-- Generate halaman: index, produk, kategori, statis (about, contact, privacy, disclaimer, affiliate-disclosure)
-- Generate `sitemap.xml`
+- Klasifikasi produk ke 6 kategori (outer, dress, tunik, atasan, bawahan, hijab)
+- Sort by `date_added` descending (terbaru di atas)
+- Home-highlights: 15 produk terbaru + 15 produk terlaris dengan horizontal scroll
+- Counter-based slug dedup untuk judul duplikat (`-2`, `-3`)
+- Generate 1036+ product pages, index (infinite scroll), 6 kategori, 7+ artikel, 6 halaman statis, sitemap.xml
+- JSON-LD: Organization, Product, Article, FAQPage, WebPage
 
-### 7. Templates (`templates/`)
-- `product.html` — SEO product page + FAQ schema
-- `category.html` — category listing
-- `index.html` — homepage + recent products
-- `page.html` — static pages template
+### 6. CSS Scroll Horizontal (Key Technique)
+```
+.hl-scroll-wrap { position:relative }
+  button.hl-scroll-left ❮
+  .products.hl-scroll { display:block; overflow-x:auto }
+    .hl-scroll-inner { display:flex; min-width:max-content }
+      .product-card { flex-shrink:0; width:220px(D)/170px(M) }
+  button.hl-scroll-right ❯
+```
 
-### 8. File `wrangler.toml`
+**Critical fix:** `.hl-col{min-width:0}` — CSS Grid item default `min-width:auto` blocks overflow scrolling. Adding `min-width:0` on the grid item allows `overflow-x:auto` to work.
+
+### 7. File `wrangler.toml`
 ```toml
 name = "trend-fashion-auto"
 pages_build_output_dir = "generated"
 ```
 
-### 9. File `.github/workflows/update.yml`
+### 8. File `.github/workflows/update.yml`
 GitHub Actions workflow:
 ```yaml
 on:
@@ -103,12 +110,13 @@ steps:
   - git checkout
   - setup Python
   - pip install -r requirements.txt
-  - python crawler.py            # crawl Collshp
+  - python crawler_playwright.py # crawl via GraphQL API
   - python generate_site.py      # generate HTML
+  - commit data/products.json dengan [skip ci]
   - npx wrangler pages deploy    # deploy ke Cloudflare
 ```
 
-### 10. Git Init & Push ke GitHub
+### 9. Git Init & Push ke GitHub
 ```bash
 git init
 git add -A
@@ -118,19 +126,19 @@ git remote add origin https://github.com/akankah/trend-fashion-auto.git
 git push -u origin main
 ```
 
-### 11. Cloudflare API Token
+### 10. Cloudflare API Token
 Buat token di [dash.cloudflare.com/profile/api-tokens](https://dash.cloudflare.com/profile/api-tokens):
 - **Create Custom Token**
 - Permission: **Cloudflare Pages → Edit**
 - Account: pilih akunmu
 
-### 12. GitHub Secrets
+### 11. GitHub Secrets
 Buka [github.com/akankah/trend-fashion-auto/settings/secrets/actions](https://github.com/akankah/trend-fashion-auto/settings/secrets/actions)
 - **New repository secret**
 - **Name:** `CF_API_TOKEN`
 - **Value:** paste token Cloudflare
 
-### 13. Test Deploy
+### 12. Test Deploy
 Trigger workflow dari GitHub Actions → **Run workflow**
 
 Atau push commit → auto trigger:
@@ -144,9 +152,8 @@ git push
 ## 🌐 Hasil Akhir
 | URL | Keterangan |
 |---|---|
-| https://trend-fashion-auto.pages.dev | Website live |
+| https://trend-fashion-auto.pages.dev | Website live (1036+ produk) |
 | https://trend-fashion-auto.pages.dev/sitemap.xml | Sitemap |
-| https://trend-fashion-auto.pages.dev/p/metta-outer-organza-wanita.html | Contoh produk |
 | https://github.com/akankah/trend-fashion-auto | GitHub repo |
 
 ---
@@ -156,23 +163,26 @@ git push
 ```
 Collshp.com
     ↓ (GitHub Actions tiap 2 jam)
-crawler.py → ambil link Shopee
+crawler_playwright.py → GraphQL API → semua produk
+    ↓ Playwright resolve shortlink redirect
+data/products.json (dedup by shortlink, auto-remove stale)
     ↓
-data/products.json
-    ↓
-generate_site.py → HTML SEO
+generate_site.py → 1036+ HTML SEO pages
     ↓
 wrangler pages deploy → Cloudflare Pages
     ↓
 Website update otomatis
 ```
 
-## ⚙️ Pengembangan Lanjutan
-- Ganti `SITE_URL` di `.env` kalau pakai custom domain
-- Tambah CSS biar tampilannya lebih proper
-- Integrasi Google Indexing API biar cepet terindex
-- Tambah RSS Feed
-- Tambah Telegram Auto Post
+## ⚙️ Fitur Lengkap
+- Home-highlights: 15 produk terbaru + 15 terlaris (horizontal scroll, desktop arrows ❮❯, mobile touch)
+- Floating category bar (sticky, horizontal scroll)
+- Infinite scroll (IntersectionObserver, batch 24)
+- Auto-generated articles (7+ dari produk real)
+- JSON-LD structured data + E-E-A-T pages
+- Share buttons (FB, WA, Telegram, LINE, Email, Copy Link)
+- Mobile responsive (footer 2 baris, cat-float scroll)
+- Auto-update tiap 2 jam + auto-commit data dengan `[skip ci]`
 
 ## 🚨 Troubleshooting
 
@@ -180,9 +190,9 @@ Website update otomatis
 |---|---|
 | `Missing account_id` | Tambah `CLOUDFLARE_ACCOUNT_ID` di env workflow |
 | `401 Unauthorized` (token) | Buat ulang Cloudflare API token |
+| Scroll horizontal tidak work | Pastikan `.hl-col{min-width:0}` ada — ini fix CSS Grid `min-width:auto` |
 | Workflow gak trigger | Tambah `push` trigger di workflow yml |
 | No Pages project | Deploy via wrangler akan auto-create project |
-| Token expired | Buat baru di dashboard Cloudflare |
 
 ---
 

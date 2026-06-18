@@ -10,7 +10,7 @@
     <meta property="og:description" content="Temukan produk fashion terbaru dan terpopuler. Update otomatis setiap hari!">
     <meta property="og:type" content="website">
     <meta name="robots" content="index, follow">
-    <link rel="stylesheet" href="/style.css?v=2">
+    <link rel="stylesheet" href="/style.css?v=3">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -52,34 +52,46 @@
             <section class="hl-col">
                 <h2>Produk Terbaru</h2>
                 {% if products %}
-                <div class="products hl-scroll">
-                    {% for product in products[:15] %}
-                    <a href="/p/{{ product.slug }}.html" class="product-card">
-                        <div class="img-wrap">
-                            {% if product.image %}<img src="{{ product.image }}" alt="{{ product.title }}" loading="lazy">{% endif %}
+                <div class="hl-scroll-wrap">
+                    <button class="hl-scroll-btn hl-scroll-left" aria-label="Scroll kiri">❮</button>
+                    <div class="products hl-scroll">
+                        <div class="hl-scroll-inner">
+                        {% for product in products[:15] %}
+                        <a href="/p/{{ product.slug }}.html" class="product-card">
+                            <div class="img-wrap">
+                                {% if product.image %}<img src="{{ product.image }}" alt="{{ product.title }}" loading="lazy">{% endif %}
+                            </div>
+                            <div class="info">
+                                <h3>{{ product.title }}</h3>
+                            </div>
+                        </a>
+                        {% endfor %}
                         </div>
-                        <div class="info">
-                            <h3>{{ product.title }}</h3>
-                        </div>
-                    </a>
-                    {% endfor %}
+                    </div>
+                    <button class="hl-scroll-btn hl-scroll-right" aria-label="Scroll kanan">❯</button>
                 </div>
                 {% endif %}
             </section>
             <section class="hl-col">
                 <h2>Produk Terlaris</h2>
                 {% if popular %}
-                <div class="products hl-scroll">
-                    {% for product in popular[:15] %}
-                    <a href="/p/{{ product.slug }}.html" class="product-card">
-                        <div class="img-wrap">
-                            {% if product.image %}<img src="{{ product.image }}" alt="{{ product.title }}" loading="lazy">{% endif %}
+                <div class="hl-scroll-wrap">
+                    <button class="hl-scroll-btn hl-scroll-left" aria-label="Scroll kiri">❮</button>
+                    <div class="products hl-scroll">
+                        <div class="hl-scroll-inner">
+                        {% for product in popular[:15] %}
+                        <a href="/p/{{ product.slug }}.html" class="product-card">
+                            <div class="img-wrap">
+                                {% if product.image %}<img src="{{ product.image }}" alt="{{ product.title }}" loading="lazy">{% endif %}
+                            </div>
+                            <div class="info">
+                                <h3>{{ product.title }}</h3>
+                            </div>
+                        </a>
+                        {% endfor %}
                         </div>
-                        <div class="info">
-                            <h3>{{ product.title }}</h3>
-                        </div>
-                    </a>
-                    {% endfor %}
+                    </div>
+                    <button class="hl-scroll-btn hl-scroll-right" aria-label="Scroll kanan">❯</button>
                 </div>
                 {% endif %}
             </section>
@@ -112,6 +124,11 @@
 <div id="scroll-sentinel"></div>
 <script>
 (function(){var g=document.getElementById('product-grid');if(!g)return;var s=document.getElementById('scroll-sentinel');if(!s)return;var batch=24,idx=0,loading=false,data=[];var obs=new IntersectionObserver(async function(e){if(!e[0].isIntersecting||loading)return;loading=true;if(data.length===0){try{var r=await fetch('/data/products_display.json');data=await r.json()}catch(d){loading=false;return}data=data.slice(24)}var end=Math.min(idx+batch,data.length);for(var i=idx;i<end;i++){var d=data[i];var a=document.createElement('a');a.href='/p/'+d.slug+'.html';a.className='product-card visible';a.innerHTML='<div class=\"img-wrap\">'+(d.image?'<img src=\"'+d.image+'\" alt=\"'+d.title+'\" loading=\"lazy\">':'')+'</div><div class=\"info\"><h3>'+d.title+'</h3></div>';g.appendChild(a)}idx=end;if(idx>=data.length){obs.disconnect()}loading=false},{rootMargin:'400px'});obs.observe(s)})();
+document.querySelectorAll('.hl-scroll-wrap').forEach(function(w){
+  var c=w.querySelector('.products.hl-scroll');if(!c)return;
+  w.querySelector('.hl-scroll-left').addEventListener('click',function(){c.scrollBy({left:-Math.round(c.clientWidth*0.8),behavior:'smooth'})});
+  w.querySelector('.hl-scroll-right').addEventListener('click',function(){c.scrollBy({left:Math.round(c.clientWidth*0.8),behavior:'smooth'})})
+});
 </script>
 </body>
 </html>
