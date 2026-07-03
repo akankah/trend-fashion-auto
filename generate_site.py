@@ -439,6 +439,24 @@ def generate_sitemap(products):
     lines.append("</urlset>")
     return "\n".join(lines)
 
+def generate_text_sitemap(products):
+    urls = [f"{SITE_URL}/"]
+    urls.append(f"{SITE_URL}/artikel.html")
+    for slug in STATIC_PAGES:
+        urls.append(f"{SITE_URL}/{slug}.html")
+    for cat in CATEGORIES:
+        urls.append(f"{SITE_URL}/kategori/{cat['slug']}.html")
+    for art in generate_auto_articles(products):
+        urls.append(f"{SITE_URL}/artikel/{art['slug']}.html")
+    seen_slugs = set()
+    for p in products:
+        title = p.get("title") or f"Produk {p['shopid']}.{p['itemid']}"
+        slug = slugify(title) or f"produk-{p['shopid']}-{p['itemid']}"
+        if slug not in seen_slugs:
+            seen_slugs.add(slug)
+            urls.append(f"{SITE_URL}/p/{slug}.html")
+    return "\n".join(urls)
+
 def main():
     print("=" * 40)
     print("SITE GENERATOR")
@@ -519,9 +537,11 @@ def main():
         f.write(sitemap)
     with open(f"{OUTPUT_DIR}/sitemap-new.xml", "w", encoding="utf-8") as f:
         f.write(sitemap)
-    print("[Generator] Sitemap generated (sitemap.xml + sitemap-new.xml)")
+    with open(f"{OUTPUT_DIR}/sitemap.txt", "w", encoding="utf-8") as f:
+        f.write(generate_text_sitemap(products))
+    print("[Generator] Sitemap generated (sitemap.xml + sitemap-new.xml + sitemap.txt)")
 
-    robots = "User-agent: *\nAllow: /\nSitemap: https://trend-fashion-auto.pages.dev/sitemap.xml\nSitemap: https://trend-fashion-auto.pages.dev/sitemap-new.xml\n"
+    robots = "User-agent: *\nAllow: /\nSitemap: https://trend-fashion-auto.pages.dev/sitemap.xml\nSitemap: https://trend-fashion-auto.pages.dev/sitemap-new.xml\nSitemap: https://trend-fashion-auto.pages.dev/sitemap.txt\n"
     with open(f"{OUTPUT_DIR}/robots.txt", "w", encoding="utf-8") as f:
         f.write(robots)
     print("[Generator] robots.txt generated")
