@@ -546,20 +546,20 @@ def main():
         f.write(robots)
     print("[Generator] robots.txt generated")
 
-    headers = """# Sitemap headers
-https://www.akankah.eu.org/sitemap.txt
+    headers = """# Sitemap cache headers
+/sitemap.txt
   Content-Type: text/plain
   Cache-Control: public, max-age=3600
 
-https://www.akankah.eu.org/sitemap.xml
+/sitemap.xml
   Content-Type: application/xml
   Cache-Control: public, max-age=3600
 
-https://www.akankah.eu.org/sitemap-new.xml
+/sitemap-new.xml
   Content-Type: application/xml
   Cache-Control: public, max-age=3600
 
-https://www.akankah.eu.org/sitemap-test.xml
+/sitemap-test.xml
   Content-Type: application/xml
   Cache-Control: public, max-age=3600
 
