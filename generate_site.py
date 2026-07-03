@@ -9,7 +9,7 @@ DATA_FILE = "data/products.json"
 OUTPUT_DIR = "generated"
 TEMPLATE_DIR = "templates"
 SITE_NAME = os.getenv("SITE_NAME", "Trend Fashion Auto")
-SITE_URL = os.getenv("SITE_URL", "https://trend-fashion-auto.pages.dev")
+SITE_URL = os.getenv("SITE_URL", "https://www.akankah.eu.org")
 PLACEHOLDER_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' fill='%23f0f0f0'%3E%3Crect width='400' height='400'/%3E%3Ctext x='200' y='200' text-anchor='middle' fill='%23999' font-size='16'%3EProduct%3C/text%3E%3C/svg%3E"
 
 CATEGORIES = [
@@ -541,7 +541,7 @@ def main():
         f.write(generate_text_sitemap(products))
     print("[Generator] Sitemap generated (sitemap.xml + sitemap-new.xml + sitemap.txt)")
 
-    robots = "User-agent: *\nAllow: /\nSitemap: https://trend-fashion-auto.pages.dev/sitemap.xml\nSitemap: https://trend-fashion-auto.pages.dev/sitemap-new.xml\nSitemap: https://trend-fashion-auto.pages.dev/sitemap.txt\n"
+    robots = f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\nSitemap: {SITE_URL}/sitemap-new.xml\nSitemap: {SITE_URL}/sitemap.txt\n"
     with open(f"{OUTPUT_DIR}/robots.txt", "w", encoding="utf-8") as f:
         f.write(robots)
     print("[Generator] robots.txt generated")

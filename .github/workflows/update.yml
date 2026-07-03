@@ -38,7 +38,7 @@ jobs:
       - name: Commit updated data back to repo
         run: |
           git config user.name "Auto Bot"
-          git config user.email "bot@trend-fashion-auto.pages.dev"
+          git config user.email "bot@akankah.eu.org"
           git add data/products.json
           if git diff --cached --quiet; then
             echo "No data changes to commit"
@@ -56,9 +56,9 @@ jobs:
       - name: Ping search engines
         run: |
           for sm in \
-            "https://trend-fashion-auto.pages.dev/sitemap.xml" \
-            "https://trend-fashion-auto.pages.dev/sitemap-new.xml" \
-            "https://trend-fashion-auto.pages.dev/sitemap.txt"; do
+            "https://www.akankah.eu.org/sitemap.xml" \
+            "https://www.akankah.eu.org/sitemap-new.xml" \
+            "https://www.akankah.eu.org/sitemap.txt"; do
             curl -sS "https://www.google.com/ping?sitemap=$sm" -o /dev/null
             curl -sS "https://www.bing.com/ping?sitemap=$sm" -o /dev/null
           done
