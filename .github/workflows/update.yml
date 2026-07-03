@@ -58,7 +58,8 @@ jobs:
           for sm in \
             "https://www.akankah.eu.org/sitemap.xml" \
             "https://www.akankah.eu.org/sitemap-new.xml" \
-            "https://www.akankah.eu.org/sitemap.txt"; do
+            "https://www.akankah.eu.org/sitemap.txt" \
+            "https://www.akankah.eu.org/sitemap-test.xml"; do
             curl -sS "https://www.google.com/ping?sitemap=$sm" -o /dev/null
             curl -sS "https://www.bing.com/ping?sitemap=$sm" -o /dev/null
           done
