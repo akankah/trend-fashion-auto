@@ -52,3 +52,13 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: 1fd1fec61abb9e0d34d5d4e7b2a513d9
         run: npx wrangler pages deploy generated --project-name=trend-fashion-auto --branch=main
+
+      - name: Ping search engines
+        run: |
+          SITEMAP="https://trend-fashion-auto.pages.dev/sitemap.xml"
+          SITEMAP2="https://trend-fashion-auto.pages.dev/sitemap-new.xml"
+          curl -sS "https://www.google.com/ping?sitemap=$SITEMAP" -o /dev/null
+          curl -sS "https://www.bing.com/ping?sitemap=$SITEMAP" -o /dev/null
+          curl -sS "https://www.google.com/ping?sitemap=$SITEMAP2" -o /dev/null
+          curl -sS "https://www.bing.com/ping?sitemap=$SITEMAP2" -o /dev/null
+          echo "Pinged Google & Bing with both sitemaps"

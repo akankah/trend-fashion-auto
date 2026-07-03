@@ -517,9 +517,11 @@ def main():
     sitemap = generate_sitemap(products)
     with open(f"{OUTPUT_DIR}/sitemap.xml", "w", encoding="utf-8") as f:
         f.write(sitemap)
-    print("[Generator] Sitemap generated")
+    with open(f"{OUTPUT_DIR}/sitemap-new.xml", "w", encoding="utf-8") as f:
+        f.write(sitemap)
+    print("[Generator] Sitemap generated (sitemap.xml + sitemap-new.xml)")
 
-    robots = "User-agent: *\nAllow: /\nSitemap: https://trend-fashion-auto.pages.dev/sitemap.xml\n"
+    robots = "User-agent: *\nAllow: /\nSitemap: https://trend-fashion-auto.pages.dev/sitemap.xml\nSitemap: https://trend-fashion-auto.pages.dev/sitemap-new.xml\n"
     with open(f"{OUTPUT_DIR}/robots.txt", "w", encoding="utf-8") as f:
         f.write(robots)
     print("[Generator] robots.txt generated")
