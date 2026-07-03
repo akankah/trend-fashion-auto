@@ -15,16 +15,29 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Beranda","item":"{{ site_url }}/"},
+        {"@type":"ListItem","position":2,"name":"{{ category }}","item":"{{ site_url }}/kategori/{{ category_slug }}.html"},
+        {"@type":"ListItem","position":3,"name":"{{ title }}"}
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
       "@type": "Product",
       "name": "{{ title }}",
       "description": "{{ description }}",
       "image": "{{ image }}",
+      "brand": { "@type": "Brand", "name": "{{ site_name }}" },
       "offers": {
         "@type": "Offer",
         "price": "{{ price }}",
         "priceCurrency": "IDR",
         "url": "{{ affiliate_url }}",
-        "availability": "https://schema.org/InStock"
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition"
       },
       "aggregateRating": {
         "@type": "AggregateRating",

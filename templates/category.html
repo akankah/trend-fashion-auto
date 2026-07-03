@@ -6,8 +6,31 @@
     <title>{{ category }} - {{ site_name }}</title>
     <meta name="description" content="{{ desc[:160] }}">
     <link rel="canonical" href="{{ site_url }}/kategori/{{ slug }}.html">
+    <meta property="og:title" content="Koleksi {{ category }} - {{ site_name }}">
+    <meta property="og:description" content="{{ desc[:160] }}">
+    <meta property="og:type" content="website">
     <meta name="robots" content="index, follow">
     <link rel="stylesheet" href="/style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Beranda","item":"{{ site_url }}/"},
+        {"@type":"ListItem","position":2,"name":"{{ category }}"}
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Koleksi {{ category }}",
+      "description": "{{ desc[:160] }}",
+      "url": "{{ site_url }}/kategori/{{ slug }}.html",
+      "isPartOf": { "@type": "WebSite", "name": "{{ site_name }}", "url": "{{ site_url }}" }
+    }
+    </script>
 </head>
 <body>
     <header>

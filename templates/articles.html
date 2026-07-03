@@ -11,6 +11,26 @@
     <meta property="og:type" content="website">
     <meta name="robots" content="index, follow">
     <link rel="stylesheet" href="/style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Beranda","item":"{{ site_url }}/"},
+        {"@type":"ListItem","position":2,"name":"Artikel"}
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Semua Artikel Fashion - {{ site_name }}",
+      "description": "Kumpulan artikel fashion wanita terbaru.",
+      "url": "{{ site_url }}/artikel.html",
+      "isPartOf": { "@type": "WebSite", "name": "{{ site_name }}", "url": "{{ site_url }}" }
+    }
+    </script>
 </head>
 <body>
     <header>
