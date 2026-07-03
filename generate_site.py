@@ -546,6 +546,42 @@ def main():
         f.write(robots)
     print("[Generator] robots.txt generated")
 
+    headers = """# Sitemap headers
+https://www.akankah.eu.org/sitemap.txt
+  Content-Type: text/plain
+  Cache-Control: public, max-age=3600
+
+https://www.akankah.eu.org/sitemap.xml
+  Content-Type: application/xml
+  Cache-Control: public, max-age=3600
+
+https://www.akankah.eu.org/sitemap-new.xml
+  Content-Type: application/xml
+  Cache-Control: public, max-age=3600
+
+https://www.akankah.eu.org/sitemap-test.xml
+  Content-Type: application/xml
+  Cache-Control: public, max-age=3600
+
+# All pages
+/*
+  X-Robots-Tag: all
+"""
+    with open(f"{OUTPUT_DIR}/_headers", "w", encoding="utf-8") as f:
+        f.write(headers)
+    print("[Generator] _headers generated")
+
+    # Minimal test sitemap to isolate parser issue
+    test_sitemap = f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url><loc>{SITE_URL}/</loc><priority>1.0</priority></url>
+<url><loc>{SITE_URL}/about.html</loc><priority>0.8</priority></url>
+<url><loc>{SITE_URL}/artikel.html</loc><priority>0.8</priority></url>
+</urlset>"""
+    with open(f"{OUTPUT_DIR}/sitemap-test.xml", "w", encoding="utf-8") as f:
+        f.write(test_sitemap)
+    print("[Generator] sitemap-test.xml generated (3 URLs)")
+
     print("[Generator] Done!")
 
 if __name__ == "__main__":
