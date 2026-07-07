@@ -1,0 +1,20 @@
+# Sitemap cache headers
+/sitemap.txt
+  Content-Type: text/plain
+  Cache-Control: public, max-age=3600
+
+/sitemap.xml
+  Content-Type: application/xml
+  Cache-Control: public, max-age=3600
+
+/sitemap-new.xml
+  Content-Type: application/xml
+  Cache-Control: public, max-age=3600
+
+/sitemap-test.xml
+  Content-Type: application/xml
+  Cache-Control: public, max-age=3600
+
+# All pages
+/*
+  X-Robots-Tag: all

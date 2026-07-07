@@ -1,5 +1,5 @@
 __pycache__/
 *.pyc
 .env
-generated/
+# generated/  # committed for Cloudflare Pages deploy
 .wrangler/

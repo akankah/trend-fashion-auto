@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.akankah.eu.org/sitemap.xml
+Sitemap: https://www.akankah.eu.org/sitemap-new.xml
+Sitemap: https://www.akankah.eu.org/sitemap.txt
