@@ -11,6 +11,7 @@ TEMPLATE_DIR = "templates"
 SITE_NAME = os.getenv("SITE_NAME", "Trend Fashion Auto")
 SITE_URL = os.getenv("SITE_URL", "https://www.akankah.eu.org")
 PLACEHOLDER_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' fill='%23f0f0f0'%3E%3Crect width='400' height='400'/%3E%3Ctext x='200' y='200' text-anchor='middle' fill='%23999' font-size='16'%3EProduct%3C/text%3E%3C/svg%3E"
+DEFAULT_OG_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='630' viewBox='0 0 1200 630'%3E%3Crect width='1200' height='630' fill='%23d946ef'/%3E%3Ctext x='600' y='300' text-anchor='middle' fill='white' font-size='48' font-weight='bold' font-family='sans-serif'%3ETrend Fashion Auto%3C/text%3E%3Ctext x='600' y='370' text-anchor='middle' fill='%23fce7f3' font-size='24' font-family='sans-serif'%3EProduk Fashion Terbaru%3C/text%3E%3C/svg%3E"
 
 CATEGORIES = [
     {"name": "Outer", "slug": "outer", "icon": "🧥", "keywords": ["outer", "jaket", "cardigan", "blazer"],
@@ -278,6 +279,7 @@ def generate_product_page(env, product):
     rating, reviews = product_rating(title)
     user_reviews = generate_reviews(title, mat, style, size, cocok)
     price = (sum(ord(c) for c in title) % 100) * 1500 + 35000
+    og_image = product.get("image") or DEFAULT_OG_IMAGE
     html = template.render(
         title=title,
         slug=slug,
@@ -285,6 +287,7 @@ def generate_product_page(env, product):
         site_url=SITE_URL,
         description=description,
         image=product.get("image") or PLACEHOLDER_IMAGE,
+        og_image=og_image,
         category=cat["name"],
         category_slug=cat["slug"],
         affiliate_url=affiliate_url,
@@ -331,6 +334,8 @@ def generate_index(env, products):
         products=product_list,
         popular=popular,
         articles=generate_auto_articles(products),
+        og_description="Temukan produk fashion terbaru dan terpopuler. Update otomatis setiap hari!",
+        og_image=DEFAULT_OG_IMAGE,
     )
     return html
 
@@ -345,6 +350,8 @@ def generate_article_page(env, article):
         sections=article["sections"],
         outro=article["outro"],
         category=article["category"],
+        og_description=article["intro"][:160],
+        og_image=DEFAULT_OG_IMAGE,
     )
     return html
 
@@ -354,6 +361,8 @@ def generate_articles_index(env, articles):
         site_name=SITE_NAME,
         site_url=SITE_URL,
         articles=articles,
+        og_description="Kumpulan artikel fashion wanita terbaru: tips padu padan, rekomendasi outfit, dan panduan memilih busana.",
+        og_image=DEFAULT_OG_IMAGE,
     )
     return html
 
@@ -392,6 +401,8 @@ def generate_category_pages(env, products):
             categories=CATEGORIES,
             products=cat_products,
             articles=cat_articles,
+            og_description=cat.get("desc", "")[:160],
+            og_image=DEFAULT_OG_IMAGE,
         )
         pages[cat["slug"]] = html
     return pages
@@ -408,6 +419,8 @@ def generate_static_pages(env):
             categories=CATEGORIES,
             description=page["title"],
             content=page["content"],
+            og_description=page["title"],
+            og_image=DEFAULT_OG_IMAGE,
         )
         pages[slug] = html
     return pages

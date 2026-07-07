@@ -7,9 +7,15 @@
     <meta name="description" content="{{ site_name }} - Temukan produk fashion terbaru dan terlaris. Update setiap hari!">
     <link rel="canonical" href="{{ site_url }}">
     <meta property="og:title" content="{{ site_name }}">
-    <meta property="og:description" content="Temukan produk fashion terbaru dan terpopuler. Update otomatis setiap hari!">
+    <meta property="og:description" content="{{ og_description }}">
     <meta property="og:type" content="website">
+    <meta property="og:image" content="{{ og_image }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ site_name }}">
+    <meta name="twitter:description" content="{{ og_description }}">
+    <meta name="twitter:image" content="{{ og_image }}">
     <meta name="robots" content="index, follow">
+    <meta name="google-site-verification" content="googlea170ee9fa4898def">
     <link rel="stylesheet" href="/style.css?v=3">
     <script type="application/ld+json">
     {
@@ -19,6 +25,19 @@
       "url": "{{ site_url }}",
       "description": "Platform rekomendasi produk fashion wanita terbaru dari berbagai toko terpercaya.",
       "contactPoint": { "@type": "ContactPoint", "email": "120n1333@gmail.com", "contactType": "customer service" }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "{{ site_name }}",
+      "url": "{{ site_url }}",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ site_url }}/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
     }
     </script>
     <style>
