@@ -11,7 +11,7 @@ TEMPLATE_DIR = "templates"
 SITE_NAME = os.getenv("SITE_NAME", "Trend Fashion Auto")
 SITE_URL = os.getenv("SITE_URL", "https://www.akankah.eu.org")
 PLACEHOLDER_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' fill='%23f0f0f0'%3E%3Crect width='400' height='400'/%3E%3Ctext x='200' y='200' text-anchor='middle' fill='%23999' font-size='16'%3EProduct%3C/text%3E%3C/svg%3E"
-DEFAULT_OG_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='630' viewBox='0 0 1200 630'%3E%3Crect width='1200' height='630' fill='%23d946ef'/%3E%3Ctext x='600' y='300' text-anchor='middle' fill='white' font-size='48' font-weight='bold' font-family='sans-serif'%3ETrend Fashion Auto%3C/text%3E%3Ctext x='600' y='370' text-anchor='middle' fill='%23fce7f3' font-size='24' font-family='sans-serif'%3EProduk Fashion Terbaru%3C/text%3E%3C/svg%3E"
+DEFAULT_OG_IMAGE = os.getenv("SITE_URL", "https://www.akankah.eu.org") + "/static/og-default.png"
 
 CATEGORIES = [
     {"name": "Outer", "slug": "outer", "icon": "🧥", "keywords": ["outer", "jaket", "cardigan", "blazer"],
