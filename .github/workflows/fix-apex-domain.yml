@@ -8,21 +8,72 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Wrangler
-        run: npm install -g wrangler
-
-      - name: Add apex domain to Cloudflare Pages via Wrangler
+      - name: List existing zones
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: 1fd1fec61abb9e0d34d5d4e7b2a513d9
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
         run: |
-          npx wrangler pages domain add akankah.eu.org --project-name=trend-fashion-auto 2>&1 || true
+          echo "::group::List all zones in account"
+          curl -s -H "Authorization: Bearer $CF_API_TOKEN" \
+            "https://api.cloudflare.com/client/v4/zones?per_page=20" | python3 -m json.tool
+          echo "::endgroup::"
 
-      - name: Add @ CNAME via Wrangler (alternative)
+      - name: Create zone + DNS + Pages domain
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_ACCOUNT_ID: 1fd1fec61abb9e0d34d5d4e7b2a513d9
         run: |
-          echo "Also trying DNS record creation..."
-          RESPONSE=$(curl -s -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-            "https://api.cloudflare.com/client/v4/zones?name=akankah.eu.org")
-          echo "Zone lookup: $RESPONSE"
+          set -e
+
+          # Step 1: Create zone
+          echo "::group::Create Cloudflare zone"
+          ZONE_RESP=$(curl -s -X POST "https://api.cloudflare.com/client/v4/zones" \
+            -H "Authorization: Bearer $CF_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"name":"akankah.eu.org","account":{"id":"1fd1fec61abb9e0d34d5d4e7b2a513d9"},"jump_start":false}')
+          echo "Create zone response: $ZONE_RESP"
+          ZONE_SUCCESS=$(echo "$ZONE_RESP" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['success'])" 2>/dev/null || echo "false")
+          
+          if [ "$ZONE_SUCCESS" = "True" ]; then
+            ZONE_ID=$(echo "$ZONE_RESP" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['result']['id'])")
+            echo "Zone created: $ZONE_ID"
+            echo "ZONE_ID=$ZONE_ID" >> $GITHUB_ENV
+          else
+            echo "Zone creation failed. Checking if zone already exists..."
+            LOOKUP=$(curl -s -H "Authorization: Bearer $CF_API_TOKEN" \
+              "https://api.cloudflare.com/client/v4/zones?name=akankah.eu.org")
+            ZONE_ID=$(echo "$LOOKUP" | python3 -c "
+import sys,json
+d=json.load(sys.stdin)
+if d['result']:
+    print(d['result'][0]['id'])
+else:
+    print('')
+" 2>/dev/null || echo "")
+            if [ -n "$ZONE_ID" ]; then
+              echo "Zone already exists: $ZONE_ID"
+              echo "ZONE_ID=$ZONE_ID" >> $GITHUB_ENV
+            else
+              echo "ERROR: Cannot find or create zone"
+              echo "Zone API errors: $(echo "$ZONE_RESP" | python3 -c "import sys,json; print(json.load(sys.stdin).get('errors',[]))")"
+              exit 1
+            fi
+          fi
+          echo "::endgroup::"
+
+          # Step 2: Add CNAME @ record
+          echo "::group::Add @ CNAME"
+          CREATE_RESP=$(curl -s -X POST "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records" \
+            -H "Authorization: Bearer $CF_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"type":"CNAME","name":"akankah.eu.org","content":"trend-fashion-auto.pages.dev","proxied":true,"ttl":1}')
+          echo "DNS create response: $CREATE_RESP"
+          echo "::endgroup::"
+
+          # Step 3: Add domain to Pages project
+          echo "::group::Add domain to Pages"
+          PAGES_RESP=$(curl -s -X POST "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT_ID/pages/projects/trend-fashion-auto/domains" \
+            -H "Authorization: Bearer $CF_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"name":"akankah.eu.org"}')
+          echo "Pages response: $PAGES_RESP"
+          echo "::endgroup::"
