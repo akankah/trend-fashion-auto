@@ -78,9 +78,9 @@ STATIC_PAGES = {
 <p>Dapatkan update fashion terbaru dengan mengikuti halaman Facebook kami: <a href="https://www.facebook.com/share/1D5iiyWBr4/" target="_blank" rel="noopener">Trend Fashion Auto di Facebook</a>.</p>
 
 <h3>Hubungi Kami</h3>
-<p>Punya saran atau pertanyaan? Silakan hubungi kami via email: <a href=\"mailto:120n1333@gmail.com\">120n1333@gmail.com</a>. Kami senang mendengar dari Anda!</p>
+<p>Punya saran atau pertanyaan? Silakan hubungi kami via email: <a href=\"mailto:email@akankah.eu.org\">email@akankah.eu.org</a>. Kami senang mendengar dari Anda!</p>
 """},
-    "contact": {"title": "Kontak Kami", "content": "<p>Hubungi kami melalui email: <a href=\"mailto:120n1333@gmail.com\">120n1333@gmail.com</a></p>"},
+    "contact": {"title": "Kontak Kami", "content": "<p>Hubungi kami melalui email: <a href=\"mailto:email@akankah.eu.org\">email@akankah.eu.org</a></p>"},
     "privacy-policy": {"title": "Kebijakan Privasi", "content": "<p>Kami menghargai privasi Anda. Data pengguna tidak akan dijual atau disebarkan ke pihak ketiga.</p>"},
     "disclaimer": {"title": "Disclaimer", "content": "<p>Konten di situs ini bersifat informatif. harga dan ketersediaan produk dapat berubah sewaktu-waktu.</p>"},
     "affiliate-disclosure": {"title": "Pengungkapan Afiliasi", "content": "<p>Situs ini menggunakan link afiliasi. Kami dapat memperoleh komisi dari pembelian yang dilakukan melalui link ini.</p>"},
@@ -107,7 +107,7 @@ STATIC_PAGES = {
 <p>Tidak. Harga yang Anda bayarkan tetap sama. Kami mendapat komisi kecil dari Shopee tanpa biaya tambahan untuk pembeli.</p>
 
 <h3>Bagaimana cara menghubungi kami?</h3>
-<p>Hubungi kami melalui email: <a href="mailto:120n1333@gmail.com">120n1333@gmail.com</a></p>
+<p>Hubungi kami melalui email: <a href="mailto:email@akankah.eu.org">email@akankah.eu.org</a></p>
 """},
 }
 
