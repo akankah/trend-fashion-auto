@@ -8,72 +8,56 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: List existing zones
+      - name: List zones to debug
         env:
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
         run: |
-          echo "::group::List all zones in account"
+          echo "=== All zones ==="
           curl -s -H "Authorization: Bearer $CF_API_TOKEN" \
-            "https://api.cloudflare.com/client/v4/zones?per_page=20" | python3 -m json.tool
-          echo "::endgroup::"
+            "https://api.cloudflare.com/client/v4/zones?per_page=20"
+          echo ""
 
-      - name: Create zone + DNS + Pages domain
+      - name: Create zone and setup apex domain
         env:
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CF_ACCOUNT_ID: 1fd1fec61abb9e0d34d5d4e7b2a513d9
         run: |
           set -e
-
-          # Step 1: Create zone
-          echo "::group::Create Cloudflare zone"
+          # Create Cloudflare zone
+          echo "=== Creating zone ==="
           ZONE_RESP=$(curl -s -X POST "https://api.cloudflare.com/client/v4/zones" \
             -H "Authorization: Bearer $CF_API_TOKEN" \
             -H "Content-Type: application/json" \
-            -d '{"name":"akankah.eu.org","account":{"id":"1fd1fec61abb9e0d34d5d4e7b2a513d9"},"jump_start":false}')
-          echo "Create zone response: $ZONE_RESP"
-          ZONE_SUCCESS=$(echo "$ZONE_RESP" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['success'])" 2>/dev/null || echo "false")
-          
-          if [ "$ZONE_SUCCESS" = "True" ]; then
-            ZONE_ID=$(echo "$ZONE_RESP" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['result']['id'])")
+            -d "{\"name\":\"akankah.eu.org\",\"account\":{\"id\":\"$CF_ACCOUNT_ID\"},\"jump_start\":false}")
+          echo "$ZONE_RESP"
+          ZONE_OK=$(echo "$ZONE_RESP" | python3 -c "import sys,json; print(json.load(sys.stdin)['success'])" 2>/dev/null || echo "False")
+
+          if [ "$ZONE_OK" = "True" ]; then
+            ZONE_ID=$(echo "$ZONE_RESP" | python3 -c "import sys,json; print(json.load(sys.stdin)['result']['id'])")
             echo "Zone created: $ZONE_ID"
-            echo "ZONE_ID=$ZONE_ID" >> $GITHUB_ENV
           else
-            echo "Zone creation failed. Checking if zone already exists..."
-            LOOKUP=$(curl -s -H "Authorization: Bearer $CF_API_TOKEN" \
-              "https://api.cloudflare.com/client/v4/zones?name=akankah.eu.org")
-            ZONE_ID=$(echo "$LOOKUP" | python3 -c "
-import sys,json
-d=json.load(sys.stdin)
-if d['result']:
-    print(d['result'][0]['id'])
-else:
-    print('')
-" 2>/dev/null || echo "")
-            if [ -n "$ZONE_ID" ]; then
-              echo "Zone already exists: $ZONE_ID"
-              echo "ZONE_ID=$ZONE_ID" >> $GITHUB_ENV
-            else
-              echo "ERROR: Cannot find or create zone"
-              echo "Zone API errors: $(echo "$ZONE_RESP" | python3 -c "import sys,json; print(json.load(sys.stdin).get('errors',[]))")"
+            echo "Zone may already exist or error. Trying to find existing zone..."
+            ZONE_ID=$(curl -s -H "Authorization: Bearer $CF_API_TOKEN" \
+              "https://api.cloudflare.com/client/v4/zones?name=akankah.eu.org" | \
+              python3 -c "import sys,json; d=json.load(sys.stdin); print(d['result'][0]['id'] if d['result'] else '')" 2>/dev/null || echo "")
+            if [ -z "$ZONE_ID" ]; then
+              echo "ERROR: Cannot find or create zone akankah.eu.org"
               exit 1
             fi
+            echo "Found existing zone: $ZONE_ID"
           fi
-          echo "::endgroup::"
+          echo "ZONE_ID=$ZONE_ID" >> $GITHUB_ENV
 
-          # Step 2: Add CNAME @ record
-          echo "::group::Add @ CNAME"
-          CREATE_RESP=$(curl -s -X POST "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records" \
+          # Add CNAME for apex
+          echo "=== Adding CNAME @ ==="
+          curl -s -X POST "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records" \
             -H "Authorization: Bearer $CF_API_TOKEN" \
             -H "Content-Type: application/json" \
-            -d '{"type":"CNAME","name":"akankah.eu.org","content":"trend-fashion-auto.pages.dev","proxied":true,"ttl":1}')
-          echo "DNS create response: $CREATE_RESP"
-          echo "::endgroup::"
+            -d '{"type":"CNAME","name":"akankah.eu.org","content":"trend-fashion-auto.pages.dev","proxied":true,"ttl":1}'
 
-          # Step 3: Add domain to Pages project
-          echo "::group::Add domain to Pages"
-          PAGES_RESP=$(curl -s -X POST "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT_ID/pages/projects/trend-fashion-auto/domains" \
+          # Add domain to Pages
+          echo "=== Adding domain to Pages ==="
+          curl -s -X POST "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT_ID/pages/projects/trend-fashion-auto/domains" \
             -H "Authorization: Bearer $CF_API_TOKEN" \
             -H "Content-Type: application/json" \
-            -d '{"name":"akankah.eu.org"}')
-          echo "Pages response: $PAGES_RESP"
-          echo "::endgroup::"
+            -d '{"name":"akankah.eu.org"}'
