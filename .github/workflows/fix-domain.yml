@@ -1,0 +1,46 @@
+name: Fix Root Domain DNS
+
+on: workflow_dispatch
+
+jobs:
+  fix-dns:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get Cloudflare Zone ID for akankah.eu.org
+        id: zone
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+        run: |
+          RESPONSE=$(curl -s -H "Authorization: Bearer $CF_API_TOKEN" \
+            "https://api.cloudflare.com/client/v4/zones?name=akankah.eu.org")
+          ZONE_ID=$(echo "$RESPONSE" | python3 -c "import sys,json; print(json.load(sys.stdin)['result'][0]['id'])")
+          echo "ZONE_ID=$ZONE_ID" >> $GITHUB_OUTPUT
+          echo "Zone ID: $ZONE_ID"
+
+      - name: Add CNAME @ → trend-fashion-auto.pages.dev
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          ZONE_ID: ${{ steps.zone.outputs.ZONE_ID }}
+        run: |
+          curl -s -X POST "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records" \
+            -H "Authorization: Bearer $CF_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "type": "CNAME",
+              "name": "akankah.eu.org",
+              "content": "trend-fashion-auto.pages.dev",
+              "proxied": true,
+              "ttl": 1
+            }' | python3 -m json.tool
+
+      - name: Add root domain to Cloudflare Pages
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_ACCOUNT_ID: 1fd1fec61abb9e0d34d5d4e7b2a513d9
+        run: |
+          curl -s -X POST "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT_ID/pages/projects/trend-fashion-auto/domains" \
+            -H "Authorization: Bearer $CF_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"name": "akankah.eu.org"}' | python3 -m json.tool
