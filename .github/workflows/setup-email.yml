@@ -1,0 +1,49 @@
+name: Setup Email Routing
+
+on: workflow_dispatch
+
+jobs:
+  setup-email:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Enable Email Routing + Add rule
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_ACCOUNT_ID: 1fd1fec61abb9e0d34d5d4e7b2a513d9
+        run: |
+          # Get zone ID
+          ZONE_ID=$(curl -s -H "Authorization: Bearer $CF_API_TOKEN" \
+            "https://api.cloudflare.com/client/v4/zones?name=akankah.eu.org" | \
+            python3 -c "import sys,json; d=json.load(sys.stdin); print(d['result'][0]['id'] if d['result'] else '')")
+          echo "Zone ID: $ZONE_ID"
+          if [ -z "$ZONE_ID" ]; then exit 1; fi
+
+          # Enable Email Routing
+          echo "=== Enable Email Routing ==="
+          curl -s -X POST "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/enable" \
+            -H "Authorization: Bearer $CF_API_TOKEN" \
+            -H "Content-Type: application/json" | python3 -m json.tool
+
+          # Add destination address (kirim verifikasi ke gmail)
+          echo "=== Add destination address ==="
+          curl -s -X POST "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/addresses" \
+            -H "Authorization: Bearer $CF_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"email":"120n1333@gmail.com"}' | python3 -m json.tool
+
+          # Create routing rule: mail@ → gmail
+          echo "=== Create routing rule ==="
+          curl -s -X POST "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/email/routing/rules" \
+            -H "Authorization: Bearer $CF_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "name": "mail to gmail",
+              "enabled": true,
+              "matchers": [{"field": "to", "type": "literal", "value": "mail@akankah.eu.org"}],
+              "actions": [{"type": "forward", "value": ["120n1333@gmail.com"]}]
+            }' | python3 -m json.tool
+
+          echo "=== Done ==="
+          echo "Cek email 120n1333@gmail.com untuk link verifikasi dari Cloudflare"
